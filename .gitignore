@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Gwen data (user-specific, never commit)
+.gwen/
+data/personalities/*.yaml
+!data/personalities/.gitkeep
+
+# Safety Ledger keys and encrypted data
+*.key
+*.enc
+
+# OS
+.DS_Store
+Thumbs.db
+
+# ChromaDB local storage
+chroma_data/

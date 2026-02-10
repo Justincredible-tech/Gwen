@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gwen"
+version = "0.1.0"
+description = "Open-source framework for building persistent, emotionally intelligent AI companions on local hardware."
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.11"
+authors = [
+    {name = "Gwen Contributors"}
+]
+
+dependencies = [
+    "pydantic>=2.0",
+    "chromadb>=0.4.0",
+    "networkx>=3.0",
+    "cryptography>=41.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.21",
+]
+
+[tool.setuptools.packages.find]
+include = ["gwen*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+markers = [
+    "ollama: marks tests that require a running Ollama instance (deselect with '-m \"not ollama\"')",
+]
