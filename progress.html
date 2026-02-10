@@ -558,11 +558,11 @@
     </div>
 
     <div class="stats">
-      <div class="stat stat--green"><span class="stat__value">331</span> tests passing</div>
-      <div class="stat"><span class="stat__value">~10,700</span> lines of code</div>
-      <div class="stat stat--green"><span class="stat__value">12</span> tracks done</div>
-      <div class="stat stat--amber"><span class="stat__value">4</span> ready</div>
-      <div class="stat"><span class="stat__value">4</span> blocked</div>
+      <div class="stat stat--green"><span class="stat__value">370</span> tests passing</div>
+      <div class="stat"><span class="stat__value">~11,500</span> lines of code</div>
+      <div class="stat stat--green"><span class="stat__value">13</span> tracks done</div>
+      <div class="stat stat--amber"><span class="stat__value">5</span> ready</div>
+      <div class="stat"><span class="stat__value">2</span> blocked</div>
       <div class="stat stat--green"><span class="stat__value">8/8</span> Phase 1 complete</div>
     </div>
   </header>
@@ -574,7 +574,7 @@
     <div class="column column--done">
       <div class="column__header">
         <span class="column__title">Done</span>
-        <span class="column__count">12</span>
+        <span class="column__count">13</span>
       </div>
 
       <div class="card card--done" style="animation-delay:0.08s">
@@ -701,6 +701,20 @@
 
       <div class="card card--done" style="animation-delay:0.26s">
         <div class="card__top">
+          <span class="card__id">010</span>
+          <span class="card__name">Context Assembler</span>
+          <span class="card__expand-hint">hover for detail</span>
+        </div>
+        <div class="card__desc">Stream (working memory), token-budget context assembly, temporal block generation, conversation truncation with min 4 exchanges.</div>
+        <div class="card__meta">
+          <span class="tag tag--files">3 files</span>
+          <span class="tag tag--tests">39 tests</span>
+          <span class="tag tag--dep">dep: 008, 009</span>
+        </div>
+      </div>
+
+      <div class="card card--done" style="animation-delay:0.28s">
+        <div class="card__top">
           <span class="card__id">013</span>
           <span class="card__name">Amygdala Layer</span>
           <span class="card__expand-hint">hover for detail</span>
@@ -746,17 +760,17 @@
     <div class="column column--active">
       <div class="column__header">
         <span class="column__title">Ready</span>
-        <span class="column__count">4</span>
+        <span class="column__count">5</span>
       </div>
 
       <div class="card card--active" style="animation-delay:0.15s">
         <div class="card__top">
-          <span class="card__id">010</span>
-          <span class="card__name">Context Assembler</span>
+          <span class="card__id">011</span>
+          <span class="card__name">Post Processing</span>
         </div>
-        <div class="card__desc">Build Tier 1 context window from system prompt, relational context, temporal block, mood-congruent memories, conversation history.</div>
+        <div class="card__desc">Tag responses emotionally, store in Chronicle, generate embeddings, log reconsolidation events.</div>
         <div class="card__meta">
-          <span class="tag tag--dep">dep: 008, 009</span>
+          <span class="tag tag--dep">dep: 009, 010</span>
         </div>
       </div>
 
@@ -792,29 +806,29 @@
           <span class="tag tag--dep">dep: 003, 013</span>
         </div>
       </div>
+
+      <div class="card card--active" style="animation-delay:0.43s">
+        <div class="card__top">
+          <span class="card__id">019</span>
+          <span class="card__name">Compass Framework</span>
+        </div>
+        <div class="card__desc">4 directions (N/S/W/E), 20 skills, effectiveness tracking, disclaimer calibration.</div>
+        <div class="card__meta">
+          <span class="tag tag--dep">dep: 005, 010</span>
+        </div>
+      </div>
     </div>
 
     <!-- ─── BACKLOG (blocked) ─── -->
     <div class="column column--backlog">
       <div class="column__header">
         <span class="column__title">Blocked</span>
-        <span class="column__count">4</span>
+        <span class="column__count">2</span>
       </div>
 
       <div class="phase-divider">Phase 2 — Memory &amp; Intelligence</div>
 
       <div class="card card--backlog" style="animation-delay:0.25s">
-        <div class="card__top">
-          <span class="card__id">011</span>
-          <span class="card__name">Post Processing</span>
-        </div>
-        <div class="card__desc">Tag responses emotionally, store in Chronicle, generate embeddings, log reconsolidation events.</div>
-        <div class="card__meta">
-          <span class="tag tag--dep">needs: 010</span>
-        </div>
-      </div>
-
-      <div class="card card--backlog" style="animation-delay:0.30s">
         <div class="card__top">
           <span class="card__id">012</span>
           <span class="card__name">Session Close</span>
@@ -827,18 +841,7 @@
 
       <div class="phase-divider">Phase 3 — Deep Systems</div>
 
-      <div class="card card--backlog" style="animation-delay:0.33s">
-        <div class="card__top">
-          <span class="card__id">019</span>
-          <span class="card__name">Compass Framework</span>
-        </div>
-        <div class="card__desc">4 directions (N/S/W/E), 20 skills, effectiveness tracking, disclaimer calibration.</div>
-        <div class="card__meta">
-          <span class="tag tag--dep">needs: 010</span>
-        </div>
-      </div>
-
-      <div class="card card--backlog" style="animation-delay:0.36s">
+      <div class="card card--backlog" style="animation-delay:0.30s">
         <div class="card__top">
           <span class="card__id">020</span>
           <span class="card__name">Temporal &amp; Autonomy</span>
@@ -856,11 +859,9 @@
     <div class="dep-section__title">Critical Paths</div>
     <div class="dep-grid">
       <div class="dep-chain">
-        <span class="dep-chain__node dep-chain__node--done">008</span>
+        <span class="dep-chain__node dep-chain__node--done">010</span>
         <span class="dep-chain__arrow">→</span>
-        <span class="dep-chain__node dep-chain__node--active">010</span>
-        <span class="dep-chain__arrow">→</span>
-        <span class="dep-chain__node dep-chain__node--backlog">011</span>
+        <span class="dep-chain__node dep-chain__node--active">011</span>
         <span class="dep-chain__arrow">→</span>
         <span class="dep-chain__node dep-chain__node--backlog">012</span>
       </div>
@@ -882,15 +883,15 @@
         <span class="dep-chain__node dep-chain__node--active">018</span>
       </div>
       <div class="dep-chain">
-        <span class="dep-chain__node dep-chain__node--active">010</span>
+        <span class="dep-chain__node dep-chain__node--done">010</span>
         <span class="dep-chain__arrow">→</span>
-        <span class="dep-chain__node dep-chain__node--backlog">019</span>
+        <span class="dep-chain__node dep-chain__node--active">019</span>
       </div>
     </div>
   </section>
 
   <footer class="footer">
-    Last updated 2026-02-10 &middot; 331 unit tests passing &middot; Phase 1 complete &middot; all 12 completed tracks verified
+    Last updated 2026-02-10 &middot; 370 unit tests passing &middot; Phase 1 complete &middot; all 13 completed tracks verified
   </footer>
 
 </div>
@@ -901,8 +902,8 @@
     setTimeout(() => {
       const fill = document.getElementById('progressFill');
       const label = document.getElementById('progressLabel');
-      fill.style.width = '60%';
-      label.textContent = '12 / 20';
+      fill.style.width = '65%';
+      label.textContent = '13 / 20';
     }, 300);
   });
 </script>

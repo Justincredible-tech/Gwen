@@ -11,17 +11,17 @@ Build the Context Assembler that constructs the full Tier 1 prompt within a toke
 - Truncation strategy: remove oldest conversation history first
 
 ## 3. Requirements
-- [ ] Stream class (working memory) holding recent messages with add/get/truncate
-- [ ] ContextAssembler class with assemble() -> str
-- [ ] Token budget management (approximate: chars/4)
-- [ ] Priority ordering: system prompt > relational > temporal > memory > return context > conversation > current message
-- [ ] Conversation history truncation from oldest when budget exceeded
-- [ ] Minimum 4 exchanges always preserved
-- [ ] Temporal context block generation (natural language summary)
+- [x]Stream class (working memory) holding recent messages with add/get/truncate
+- [x]ContextAssembler class with assemble() -> str
+- [x]Token budget management (approximate: chars/4)
+- [x]Priority ordering: system prompt > relational > temporal > memory > return context > conversation > current message
+- [x]Conversation history truncation from oldest when budget exceeded
+- [x]Minimum 4 exchanges always preserved
+- [x]Temporal context block generation (natural language summary)
 
 ## 4. Verification Plan
-- [ ] Context stays within budget
-- [ ] All priority components present when budget allows
-- [ ] Truncation removes oldest messages first
-- [ ] At least 4 exchanges always remain
-- [ ] pytest tests/test_context.py passes
+- [x]Context stays within budget
+- [x]All priority components present when budget allows
+- [x]Truncation removes oldest messages first
+- [x]At least 4 exchanges always remain
+- [x]pytest tests/test_context.py passes

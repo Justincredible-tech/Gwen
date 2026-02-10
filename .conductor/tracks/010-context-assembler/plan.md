@@ -2,7 +2,7 @@
 
 **Track:** 010-context-assembler
 **Spec:** [spec.md](./spec.md)
-**Status:** Not Started
+**Status:** Complete
 
 ---
 
@@ -12,7 +12,7 @@
 
 Create the file `gwen/memory/stream.py` (path: `C:\Users\Administrator\Desktop\projects\Gwen\gwen\memory\stream.py`).
 
-- [ ] Write Stream class with __init__ and message storage
+- [x]Write Stream class with __init__ and message storage
 
 ```python
 """Stream: Tier 1 of the Living Memory system (working memory).
@@ -85,7 +85,7 @@ class Stream:
 
 Add this method to the `Stream` class in `gwen/memory/stream.py`, directly after the `message_count` property.
 
-- [ ] Add add_message method
+- [x]Add add_message method
 
 ```python
     def add_message(
@@ -142,7 +142,7 @@ Add this method to the `Stream` class in `gwen/memory/stream.py`, directly after
 
 Add this method to the `Stream` class in `gwen/memory/stream.py`, directly after the `add_message` method.
 
-- [ ] Add get_recent method
+- [x]Add get_recent method
 
 ```python
     def get_recent(self, n: int) -> list[dict]:
@@ -169,7 +169,7 @@ Add this method to the `Stream` class in `gwen/memory/stream.py`, directly after
 
 Add this method to the `Stream` class in `gwen/memory/stream.py`, directly after the `get_recent` method.
 
-- [ ] Add get_formatted method
+- [x]Add get_formatted method
 
 ```python
     def get_formatted(self, n: int) -> str:
@@ -216,7 +216,7 @@ Add this method to the `Stream` class in `gwen/memory/stream.py`, directly after
 
 Add this method to the `Stream` class in `gwen/memory/stream.py`, directly after the `get_formatted` method.
 
-- [ ] Add clear method
+- [x]Add clear method
 
 ```python
     def clear(self) -> None:
@@ -240,7 +240,7 @@ Add this method to the `Stream` class in `gwen/memory/stream.py`, directly after
 
 Add this method to the `Stream` class in `gwen/memory/stream.py`, directly after the `clear` method. This is a module-level utility, not a method on `Stream`, because it is used by both `Stream` and `ContextAssembler`.
 
-- [ ] Add estimate_tokens as a module-level function
+- [x]Add estimate_tokens as a module-level function
 
 ```python
 def estimate_tokens(text: str) -> int:
@@ -272,7 +272,7 @@ def estimate_tokens(text: str) -> int:
 
 Add this function at the bottom of `gwen/memory/stream.py`, after the `estimate_tokens` function. (We put it here rather than in a separate file because it is small and closely related to context assembly.)
 
-- [ ] Add generate_temporal_block function
+- [x]Add generate_temporal_block function
 
 ```python
 def generate_temporal_block(
@@ -410,7 +410,7 @@ def generate_temporal_block(
 
 Create the file `gwen/core/context_assembler.py` (path: `C:\Users\Administrator\Desktop\projects\Gwen\gwen\core\context_assembler.py`).
 
-- [ ] Write ContextAssembler class with __init__
+- [x]Write ContextAssembler class with __init__
 
 ```python
 """Context Assembler: Builds the full Tier 1 prompt within a token budget.
@@ -518,7 +518,7 @@ class ContextAssembler:
 
 Add this method to the `ContextAssembler` class in `gwen/core/context_assembler.py`, directly after the `__init__` method.
 
-- [ ] Add assemble method
+- [x]Add assemble method
 
 ```python
     async def assemble(
@@ -698,7 +698,7 @@ Each component's token count is tracked, and conversation history is truncated w
 
 Add this method to the `ContextAssembler` class in `gwen/core/context_assembler.py`, directly after the `assemble` method.
 
-- [ ] Add _truncate_conversation method
+- [x]Add _truncate_conversation method
 
 ```python
     def _truncate_conversation(
@@ -772,7 +772,7 @@ Add this method to the `ContextAssembler` class in `gwen/core/context_assembler.
 
 Create the file `tests/test_context.py` (path: `C:\Users\Administrator\Desktop\projects\Gwen\tests\test_context.py`).
 
-- [ ] Write test file for Stream and ContextAssembler
+- [x]Write test file for Stream and ContextAssembler
 
 ```python
 """Tests for the Stream (working memory) and ContextAssembler.
@@ -1348,7 +1348,7 @@ class TestTruncateConversation:
 
 Run this command from the project root (`C:\Users\Administrator\Desktop\projects\Gwen\`):
 
-- [ ] Run `pytest tests/test_context.py -v` and confirm all tests pass
+- [x]Run `pytest tests/test_context.py -v` and confirm all tests pass
 
 ```bash
 pytest tests/test_context.py -v

@@ -6,7 +6,6 @@
 ## Backlog
 
 ### Phase 2: Memory & Intelligence
-- [ ] 010-context-assembler (Depends: 008, 009)
 - [ ] 011-post-processing (Depends: 009, 010)
 - [ ] 012-session-close (Depends: 007, 011)
 
@@ -29,4 +28,5 @@
 - [x] 009-embedding-service (Finished: 2026-02-09)
 - [x] 013-amygdala-layer (Finished: 2026-02-10)
 - [x] 014-safety-core (Finished: 2026-02-10)
+- [x] 010-context-assembler (Finished: 2026-02-10)
 - [x] 016-semantic-map (Finished: 2026-02-10)
