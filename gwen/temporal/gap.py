@@ -14,6 +14,13 @@ from gwen.models.messages import SessionEndMode, SessionType
 from gwen.models.emotional import EmotionalStateVector, CompassDirection
 
 
+def _ensure_aware(dt: datetime) -> datetime:
+    """Ensure a datetime is timezone-aware (assume UTC if naive)."""
+    if dt.tzinfo is None:
+        return dt.replace(tzinfo=timezone.utc)
+    return dt
+
+
 def compute_gap_analysis(chronicle) -> Optional[GapAnalysis]:
     """Compute a GapAnalysis based on the time since the last session.
 
@@ -49,9 +56,7 @@ def compute_gap_analysis(chronicle) -> Optional[GapAnalysis]:
 
     # Compute hours since last session
     now = datetime.now(timezone.utc)
-    # Normalise: last_end from Chronicle may be naive
-    if last_end.tzinfo is None:
-        last_end = last_end.replace(tzinfo=timezone.utc)
+    last_end = _ensure_aware(last_end)
     gap_delta = now - last_end
     gap_hours = gap_delta.total_seconds() / 3600.0
 
@@ -89,8 +94,8 @@ def compute_gap_analysis(chronicle) -> Optional[GapAnalysis]:
         prev_session = chronological[i - 1]
         curr_session = chronological[i]
 
-        prev_end = prev_session.end_time or prev_session.start_time
-        curr_start = curr_session.start_time
+        prev_end = _ensure_aware(prev_session.end_time or prev_session.start_time)
+        curr_start = _ensure_aware(curr_session.start_time)
 
         gap_h = (curr_start - prev_end).total_seconds() / 3600.0
         if gap_h > 0:

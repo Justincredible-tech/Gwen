@@ -69,5 +69,9 @@ class PersonalityModule:
     # System prompt sections (injected dynamically based on context)
     core_prompt: str = ""                       # Always injected
     emotional_prompt: str = ""                  # Injected during emotional conversations
-    coaching_prompt: str = ""                   # Injected when Compass is active
+    coaching_prompt: str = ""                   # Injected when Compass is active (legacy/fallback)
+    coaching_prompt_north: str = ""             # Direction-specific: Presence/grounding
+    coaching_prompt_south: str = ""             # Direction-specific: Emotional regulation
+    coaching_prompt_west: str = ""              # Direction-specific: Distress tolerance
+    coaching_prompt_east: str = ""              # Direction-specific: Interpersonal skills
     intimate_prompt: str = ""                   # Injected only in Immersion Mode

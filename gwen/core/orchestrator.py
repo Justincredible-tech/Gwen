@@ -320,6 +320,13 @@ class Orchestrator:
             tier=1,
             prompt=prompt,
             system=system_prompt,
+            options={
+                "num_predict": 512,
+                "temperature": 0.7,
+                "top_p": 0.8,
+                "top_k": 20,
+                "repeat_penalty": 1.15,
+            },
         )
 
         # Clean up: strip any "Gwen:" prefix the model might echo

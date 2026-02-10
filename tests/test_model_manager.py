@@ -279,21 +279,21 @@ class TestAdaptiveModelManager:
         assert mgr.get_model_for_tier(2) == "qwen3:8b-q3"
 
     def test_get_model_for_tier_standard(self) -> None:
-        """Standard profile should use 0.6b, 8b, and 30b."""
+        """Standard profile should use 0.6b and 30b."""
         mgr = AdaptiveModelManager(
             profile=HardwareProfile.STANDARD, ollama_host="http://fake:11434"
         )
         assert mgr.get_model_for_tier(0) == "qwen3:0.6b"
-        assert mgr.get_model_for_tier(1) == "qwen3:8b"
+        assert mgr.get_model_for_tier(1) == "qwen3-coder:30b"
         assert mgr.get_model_for_tier(2) == "qwen3-coder:30b"
 
     def test_get_model_for_tier_power(self) -> None:
-        """Power profile should use 0.6b, 8b, and 30b (same as standard)."""
+        """Power profile should use 0.6b and 30b (same as standard)."""
         mgr = AdaptiveModelManager(
             profile=HardwareProfile.POWER, ollama_host="http://fake:11434"
         )
         assert mgr.get_model_for_tier(0) == "qwen3:0.6b"
-        assert mgr.get_model_for_tier(1) == "qwen3:8b"
+        assert mgr.get_model_for_tier(1) == "qwen3-coder:30b"
         assert mgr.get_model_for_tier(2) == "qwen3-coder:30b"
 
     def test_invalid_tier_raises_value_error(self) -> None:
@@ -338,7 +338,7 @@ class TestAdaptiveModelManager:
 
         # Now load Tier 2 — should unload Tier 1 first
         await mgr.ensure_tier_loaded(2)
-        mgr.client.unload_model.assert_called_with("qwen3:8b")
+        mgr.client.unload_model.assert_called_with("qwen3-coder:30b")
         assert 1 not in mgr._loaded_tiers
         assert 2 in mgr._loaded_tiers
 
@@ -370,7 +370,7 @@ class TestAdaptiveModelManager:
         result = await mgr.generate(tier=1, prompt="Hello")
 
         mgr.client.generate.assert_called_once_with(
-            model="qwen3:8b",
+            model="qwen3-coder:30b",
             prompt="Hello",
             system=None,
             format=None,

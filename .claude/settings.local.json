@@ -17,7 +17,12 @@
       "Bash(git commit:*)",
       "Bash(git status:*)",
       "Bash(tasklist:*)",
-      "Bash(taskkill:*)"
+      "Bash(taskkill:*)",
+      "WebSearch",
+      "WebFetch(domain:eval.16x.engineer)",
+      "WebFetch(domain:arxiv.org)",
+      "WebFetch(domain:research.trychroma.com)",
+      "WebFetch(domain:maliknaik.medium.com)"
     ]
   }
 }

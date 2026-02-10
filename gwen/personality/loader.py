@@ -102,6 +102,10 @@ class PersonalityLoader:
             core_prompt=raw["core_prompt"],
             emotional_prompt=raw.get("emotional_prompt", ""),
             coaching_prompt=raw.get("coaching_prompt", ""),
+            coaching_prompt_north=raw.get("coaching_prompt_north", ""),
+            coaching_prompt_south=raw.get("coaching_prompt_south", ""),
+            coaching_prompt_west=raw.get("coaching_prompt_west", ""),
+            coaching_prompt_east=raw.get("coaching_prompt_east", ""),
             intimate_prompt=raw.get("intimate_prompt", ""),
         )
 

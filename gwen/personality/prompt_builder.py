@@ -79,13 +79,22 @@ class PromptBuilder:
             if emotional:
                 sections.append(f"[EMOTIONAL CONTEXT]\n{emotional}")
 
-        # --- Section 4: Coaching prompt (context-dependent) ---
+        # --- Section 4: Coaching prompt (context-dependent, direction-specific) ---
         if compass_direction != CompassDirection.NONE:
-            coaching = personality.coaching_prompt.strip()
+            direction_label = compass_direction.value.upper()
+            # Use direction-specific prompt if available, fall back to generic
+            direction_prompts = {
+                "NORTH": personality.coaching_prompt_north,
+                "SOUTH": personality.coaching_prompt_south,
+                "WEST": personality.coaching_prompt_west,
+                "EAST": personality.coaching_prompt_east,
+            }
+            coaching = direction_prompts.get(direction_label, "").strip()
+            if not coaching:
+                coaching = personality.coaching_prompt.strip()
             if coaching:
-                direction_label = compass_direction.value.upper()
                 sections.append(
-                    f"[COMPASS ACTIVE: {direction_label}]\n{coaching}"
+                    f"[COMPASS: {direction_label}]\n{coaching}"
                 )
 
         # --- Section 5: Return context (gap-based) ---
