@@ -6,7 +6,6 @@
 ## Backlog
 
 ### Phase 3: Deep Systems
-- [ ] 015-mode-system (Depends: 004, 014)
 - [ ] 017-emotional-memory (Depends: 003, 013)
 - [ ] 018-reconsolidation (Depends: 003, 013)
 - [ ] 019-compass-framework (Depends: 005, 010)
@@ -28,3 +27,4 @@
 - [x] 016-semantic-map (Finished: 2026-02-10)
 - [x] 011-post-processing (Finished: 2026-02-10)
 - [x] 012-session-close (Finished: 2026-02-10)
+- [x] 015-mode-system (Finished: 2026-02-10)

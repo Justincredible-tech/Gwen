@@ -1228,6 +1228,15 @@ pytest tests/test_modes.py -v
 
 ## Checklist (update after each step)
 
-- [ ] Phase 1 complete: gwen/safety/modes.py with CONSENT_TEXT, CONSENT_PHRASE, and ModeManager class
-- [ ] Phase 2 complete: gwen/safety/wellness.py with WellnessCheckpoint class, concern patterns, WellnessResult
-- [ ] Phase 3 complete: tests/test_modes.py passes with all tests green
+- [x] Phase 1 complete: gwen/safety/modes.py with CONSENT_TEXT, CONSENT_PHRASE, and ModeManager class
+- [x] Phase 2 complete: gwen/safety/wellness.py with WellnessCheckpoint class, concern patterns, WellnessResult
+- [x] Phase 3 complete: tests/test_modes.py passes with all tests green (48 tests)
+
+## Implementation Notes
+
+Adapted the plan to match actual interfaces:
+- SafetyLedger.log_mode_change() is sync (not async), used for mode transitions
+- SafetyLedger.log_checkpoint() takes models.safety.WellnessCheckpoint, used for wellness
+- ThreatSeverity has no INFO/WARNING — not needed with dedicated ledger methods
+- Added swap_tier1_variant() placeholder to AdaptiveModelManager (model_manager.py)
+- Total: 467 tests pass (48 new + 419 existing)

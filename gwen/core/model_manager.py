@@ -643,6 +643,26 @@ class AdaptiveModelManager:
         # Reset tracking — only the kept model's tier is loaded
         self._loaded_tiers.clear()
 
+    async def swap_tier1_variant(self, variant: str) -> None:
+        """Swap the Tier 1 model to a different variant.
+
+        Used by the Mode System to switch between standard and uncensored
+        Tier 1 models when entering/exiting Immersion Mode.
+
+        Parameters
+        ----------
+        variant : str
+            The variant name (e.g. ``"standard"`` or ``"uncensored"``).
+
+        Notes
+        -----
+        This is currently a placeholder. In production, this would unload
+        the current Tier 1 model and load the appropriate variant. The
+        actual uncensored model names will be configured per profile once
+        available in Ollama.
+        """
+        logger.info("Tier 1 variant swap requested: %s (placeholder)", variant)
+
     async def _unload_tier(self, tier: int) -> None:
         """Unload the model for a specific tier.
 

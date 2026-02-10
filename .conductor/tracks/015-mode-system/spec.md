@@ -11,18 +11,18 @@ Build the Grounded/Immersion mode system with the Acknowledgment Gate (informed 
 - All transitions logged in Safety Ledger
 
 ## 3. Requirements
-- [ ] ModeManager with current_mode property (default: "grounded")
-- [ ] Acknowledgment Gate: present_consent() -> str (consent text), verify_consent(user_input) -> bool (checks exact phrase)
-- [ ] activate_immersion() that requires passing Acknowledgment Gate, swaps model, logs to Safety Ledger, starts wellness timer
-- [ ] deactivate_immersion() instant switch back to Grounded, swaps model, logs
-- [ ] WellnessCheckpoint: tracks cumulative Immersion hours
-- [ ] trigger_checkpoint() presents 3 questions, logs responses, detects concern patterns
-- [ ] Checkpoint CANNOT be skipped/disabled/snoozed
+- [x] ModeManager with current_mode property (default: "grounded")
+- [x] Acknowledgment Gate: present_consent() -> str (consent text), verify_consent(user_input) -> bool (checks exact phrase)
+- [x] activate_immersion() that requires passing Acknowledgment Gate, swaps model, logs to Safety Ledger, starts wellness timer
+- [x] deactivate_immersion() instant switch back to Grounded, swaps model, logs
+- [x] WellnessCheckpoint: tracks cumulative Immersion hours
+- [x] trigger_checkpoint() presents 3 questions, logs responses, detects concern patterns
+- [x] Checkpoint CANNOT be skipped/disabled/snoozed
 
 ## 4. Verification Plan
-- [ ] Default mode is Grounded
-- [ ] Cannot activate Immersion without correct consent phrase
-- [ ] Mode change swaps models and logs to Safety Ledger
-- [ ] Wellness checkpoint triggers after 48 cumulative hours
-- [ ] Concern pattern detection works ("I don't need other people" -> flagged)
-- [ ] pytest tests/test_modes.py passes
+- [x] Default mode is Grounded
+- [x] Cannot activate Immersion without correct consent phrase
+- [x] Mode change swaps models and logs to Safety Ledger
+- [x] Wellness checkpoint triggers after 48 cumulative hours
+- [x] Concern pattern detection works ("I don't need other people" -> flagged)
+- [x] pytest tests/test_modes.py passes
