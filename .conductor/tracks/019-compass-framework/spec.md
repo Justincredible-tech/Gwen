@@ -11,17 +11,17 @@ Build the Compass life-coaching framework: direction classification (via Rule En
 - Disclaimer calibration: occasionally add natural disclaimers
 
 ## 3. Requirements
-- [ ] CompassSkillRegistry: defines all 20 skills with name, direction, description, prompt injection text
-- [ ] SkillSelector: select_skill(direction, emotional_state, effectiveness_history) → skill
-- [ ] Skill delivery: generate prompt section for selected skill
-- [ ] EffectivenessTracker: log usage, compute effectiveness after session
-- [ ] Disclaimer calibrator: determine if disclaimer should be added
-- [ ] Integration: Context assembler injects Compass prompt when direction != NONE
+- [x] CompassSkillRegistry: defines all 20 skills with name, direction, description, prompt injection text
+- [x] SkillSelector: select_skill(direction, emotional_state, effectiveness_history) → skill
+- [x] Skill delivery: generate prompt section for selected skill
+- [x] EffectivenessTracker: log usage, compute effectiveness after session
+- [x] Disclaimer calibrator: determine if disclaimer should be added
+- [x] Integration: Context assembler injects Compass prompt when direction != NONE
 
 ## 4. Verification Plan
-- [ ] All 20 skills registered with correct directions
-- [ ] Skill selection returns appropriate skills for each direction
-- [ ] Prompt injection produces natural-feeling coaching text
-- [ ] Effectiveness scores computed correctly
-- [ ] Disclaimer frequency adjusts based on over-reliance signals
-- [ ] pytest tests/test_compass.py passes
+- [x] All 20 skills registered with correct directions
+- [x] Skill selection returns appropriate skills for each direction
+- [x] Prompt injection produces natural-feeling coaching text
+- [x] Effectiveness scores computed correctly
+- [x] Disclaimer frequency adjusts based on over-reliance signals
+- [x] pytest tests/test_compass.py passes

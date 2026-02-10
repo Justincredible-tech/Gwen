@@ -14,7 +14,7 @@
 
 Create the file `gwen/compass/__init__.py` with the following exact content:
 
-- [ ] Write gwen/compass/__init__.py
+- [x] Write gwen/compass/__init__.py
 
 **File: `gwen/compass/__init__.py`**
 
@@ -37,7 +37,7 @@ Reference: SRS.md Section 11
 
 Create the file `gwen/compass/skills.py`. This step defines the `CompassSkill` dataclass and the full `SKILL_REGISTRY` list with all 20 skills.
 
-- [ ] Write CompassSkill dataclass to gwen/compass/skills.py
+- [x] Write CompassSkill dataclass to gwen/compass/skills.py
 
 **File: `gwen/compass/skills.py`** (complete content)
 
@@ -742,7 +742,7 @@ def get_skills_for_direction(
 
 Create the file `gwen/compass/classifier.py` with the `SkillSelector` class.
 
-- [ ] Write SkillSelector class to gwen/compass/classifier.py
+- [x] Write SkillSelector class to gwen/compass/classifier.py
 
 **File: `gwen/compass/classifier.py`** (complete content)
 
@@ -911,7 +911,7 @@ class SkillSelector:
 
 Create the file `gwen/compass/tracker.py` with the `EffectivenessTracker` class.
 
-- [ ] Write EffectivenessTracker class to gwen/compass/tracker.py
+- [x] Write EffectivenessTracker class to gwen/compass/tracker.py
 
 **File: `gwen/compass/tracker.py`** (complete content)
 
@@ -1102,7 +1102,7 @@ class EffectivenessTracker:
 
 Append the following functions to `gwen/compass/classifier.py`, directly below the `SkillSelector` class.
 
-- [ ] Append prompt generation functions to gwen/compass/classifier.py
+- [x] Append prompt generation functions to gwen/compass/classifier.py
 
 **Append to `gwen/compass/classifier.py`:**
 
@@ -1201,7 +1201,7 @@ def should_add_disclaimer(over_reliance_score: float) -> bool:
 
 Create the file `tests/test_compass.py` with the following exact content:
 
-- [ ] Write tests/test_compass.py
+- [x] Write tests/test_compass.py
 
 **File: `tests/test_compass.py`** (complete content)
 
@@ -1619,7 +1619,7 @@ class TestPromptIntegration:
 
 Execute the following command from the project root:
 
-- [ ] Run `pytest tests/test_compass.py -v` and confirm all tests pass
+- [x] Run `pytest tests/test_compass.py -v` and confirm all tests pass
 
 ```bash
 pytest tests/test_compass.py -v
@@ -1673,8 +1673,14 @@ tests/test_compass.py::TestPromptIntegration::test_disclaimer_medium_over_relian
 
 ## Checklist (update after each step)
 
-- [ ] Phase 1 complete: gwen/compass/__init__.py and gwen/compass/skills.py with all 20 skills
-- [ ] Phase 2 complete: gwen/compass/classifier.py with SkillSelector
-- [ ] Phase 3 complete: gwen/compass/tracker.py with EffectivenessTracker
-- [ ] Phase 4 complete: generate_compass_prompt and should_add_disclaimer in classifier.py
-- [ ] Phase 5 complete: tests/test_compass.py passes with all 30 tests green
+- [x] Phase 1 complete: gwen/compass/__init__.py and gwen/compass/skills.py with all 20 skills
+- [x] Phase 2 complete: gwen/compass/classifier.py with SkillSelector
+- [x] Phase 3 complete: gwen/compass/tracker.py with EffectivenessTracker
+- [x] Phase 4 complete: generate_compass_prompt and should_add_disclaimer in classifier.py
+- [x] Phase 5 complete: tests/test_compass.py passes with all 30 tests green
+
+## Implementation Notes
+
+- Removed unused `pytest` import from test file (Pyright flagged it)
+- `emotional_state` parameter in `SkillSelector.select_skill()` is accepted but not yet used in scoring — part of the interface contract for future extension
+- All 30 compass tests pass; full suite 563 tests pass with 0 failures
