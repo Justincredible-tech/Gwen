@@ -2,7 +2,7 @@
 
 **Track:** 008-personality-and-cli
 **Spec:** [spec.md](./spec.md)
-**Status:** Not Started
+**Status:** Complete
 **Depends on:** 004-ollama-integration, 005-tier0-pipeline, 006-tme-generator, 007-session-manager
 
 ---
@@ -13,7 +13,7 @@
 
 Create the file `data/personalities/gwen.yaml`. This is the complete personality definition for the default Gwen companion. Every field from the PersonalityModule dataclass (SRS.md Section 3.11) must be populated.
 
-- [ ] Write gwen.yaml with all PersonalityModule fields
+- [x] Write gwen.yaml with all PersonalityModule fields
 
 ```yaml
 # =============================================================================
@@ -371,13 +371,13 @@ The file `gwen/personality/__init__.py` was already created in Track 001. Verify
 """Personality module system - YAML loading and dynamic prompt injection."""
 ```
 
-- [ ] Verify gwen/personality/__init__.py exists
+- [x] Verify gwen/personality/__init__.py exists
 
 ### Step 2.2: Create gwen/personality/loader.py
 
 Create the file `gwen/personality/loader.py`.
 
-- [ ] Write PersonalityLoader class
+- [x] Write PersonalityLoader class
 
 ```python
 """Personality module loader.
@@ -590,7 +590,7 @@ class PersonalityLoader:
 
 Create the file `gwen/personality/prompt_builder.py`.
 
-- [ ] Write PromptBuilder class
+- [x] Write PromptBuilder class
 
 ```python
 """Dynamic system prompt builder.
@@ -714,7 +714,7 @@ The method is deterministic and has no side effects — given the same inputs, i
 
 Create the file `gwen/core/orchestrator.py`.
 
-- [ ] Write Orchestrator class with startup, process_message, shutdown
+- [x] Write Orchestrator class with startup, process_message, shutdown
 
 ```python
 """Basic orchestrator for the Gwen companion framework.
@@ -1037,7 +1037,7 @@ The context assembly is intentionally simplified for Phase 1 — it just uses th
 
 Create the file `gwen/ui/cli.py`.
 
-- [ ] Write async main() function for CLI interaction
+- [x] Write async main() function for CLI interaction
 
 ```python
 """Command-line interface for Gwen.
@@ -1150,7 +1150,7 @@ The CLI is intentionally simple:
 
 Create the file `gwen/__main__.py`.
 
-- [ ] Write __main__.py entry point
+- [x] Write __main__.py entry point
 
 ```python
 """Entry point for `python -m gwen`.
@@ -1181,7 +1181,7 @@ if __name__ == "__main__":
 
 Run from the project root:
 
-- [ ] Launch `python -m gwen` and verify it starts
+- [x] Launch `python -m gwen` and verify it starts
 
 ```bash
 python -m gwen
@@ -1200,7 +1200,7 @@ python -m gwen
 
 ### Step 7.2: Manual test — send a message and get a response
 
-- [ ] Type "Hello" and verify a response comes back
+- [x] Type "Hello" and verify a response comes back
 
 ```
 You: Hello
@@ -1220,7 +1220,7 @@ Gwen: Hello! I'm Gwen, your AI assistant. How can I help you today?
 
 ### Step 7.3: Manual test — emotional message classification
 
-- [ ] Type an emotional message and verify Tier 0 classifies it (check stderr logs)
+- [x] Type an emotional message and verify Tier 0 classifies it (check stderr logs)
 
 ```
 You: I had a really rough day. My boss yelled at me in front of everyone.
@@ -1232,7 +1232,7 @@ You: I had a really rough day. My boss yelled at me in front of everyone.
 
 ### Step 7.4: Manual test — clean shutdown
 
-- [ ] Type "quit" and verify clean shutdown
+- [x] Type "quit" and verify clean shutdown
 
 ```
 You: quit

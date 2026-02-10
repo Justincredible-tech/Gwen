@@ -1002,7 +1002,7 @@ pytest tests/test_amygdala.py -v
 
 ## Checklist (update after each step)
 
-- [ ] Phase 1 complete: gwen/amygdala/__init__.py exists
-- [ ] Phase 2 complete: gwen/amygdala/layer.py with AmygdalaLayer.compute_storage_modulation() and compute_decay_factor()
-- [ ] Phase 3 complete: gwen/memory/retrieval.py with MoodCongruentRetriever, cosine_similarity, emotional_state_to_vector
-- [ ] Phase 4 complete: tests/test_amygdala.py passes with all tests green
+- [x] Phase 1 complete: gwen/amygdala/__init__.py exists
+- [x] Phase 2 complete: gwen/amygdala/layer.py with AmygdalaLayer.compute_storage_modulation() and compute_decay_factor()
+- [x] Phase 3 complete: gwen/memory/retrieval.py with MoodCongruentRetriever, cosine_similarity, emotional_state_to_vector
+- [x] Phase 4 complete: tests/test_amygdala.py passes with all tests green

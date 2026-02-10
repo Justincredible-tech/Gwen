@@ -2,7 +2,7 @@
 
 **Track:** 007-session-manager
 **Spec:** [spec.md](./spec.md)
-**Status:** Not Started
+**Status:** Complete
 **Depends on:** 003-database-layer, 006-tme-generator
 
 ---
@@ -13,7 +13,7 @@
 
 Create the file `gwen/core/session_manager.py`.
 
-- [ ] Write SessionManager class with `__init__`, `start_session`, `add_message`, `end_session`
+- [x] Write SessionManager class with `__init__`, `start_session`, `add_message`, `end_session`
 
 ```python
 """Session lifecycle management.
@@ -473,13 +473,13 @@ The method `_classify_session_type(duration_sec)` is included in the SessionMana
 | DEEP_DIVE | 5400 - 10799 | 90:00 - 179:59 |
 | MARATHON | 10800+ | 180:00+ |
 
-- [ ] Verify thresholds match SRS.md Section 3.4 SessionType enum
+- [x] Verify thresholds match SRS.md Section 3.4 SessionType enum
 
 ### Step 2.2: Goodbye keyword detection helper
 
 Add a module-level constant and helper to `gwen/core/session_manager.py`, placed **above** the `SessionManager` class definition.
 
-- [ ] Add GOODBYE_KEYWORDS and detect_goodbye() helper
+- [x] Add GOODBYE_KEYWORDS and detect_goodbye() helper
 
 ```python
 # Place this ABOVE the SessionManager class in session_manager.py
@@ -523,7 +523,7 @@ def detect_goodbye(message_text: str) -> bool:
 
 Create the file `gwen/temporal/gap.py`.
 
-- [ ] Write compute_gap_analysis() and generate_return_context()
+- [x] Write compute_gap_analysis() and generate_return_context()
 
 ```python
 """Gap analysis and return context generation.
@@ -842,7 +842,7 @@ The `detect_timeout` method is included in the SessionManager class from Step 1.
 - `SessionEndMode.FADE_OUT` if the last message was from the companion (user stopped responding)
 - `SessionEndMode.FADE_OUT` if no messages have been sent at all (empty session timed out)
 
-- [ ] Verify detect_timeout is present in SessionManager class from Step 1.1
+- [x] Verify detect_timeout is present in SessionManager class from Step 1.1
 
 **How the orchestrator should use this:** The orchestrator should call `detect_timeout()` periodically during idle periods. A simple approach is to check every 60 seconds using an asyncio timer. When it returns a non-None value, the orchestrator should call `end_session(detected_end_mode)`.
 
@@ -854,7 +854,7 @@ The `detect_timeout` method is included in the SessionManager class from Step 1.
 
 Create the file `tests/test_session.py`.
 
-- [ ] Write tests for session type classification, gap analysis, timeout detection, and full lifecycle
+- [x] Write tests for session type classification, gap analysis, timeout detection, and full lifecycle
 
 ```python
 """Tests for session management.
@@ -1430,7 +1430,7 @@ class TestGoodbyeDetection:
 
 Run from the project root:
 
-- [ ] Run `pytest tests/test_session.py -v` and confirm all tests pass
+- [x] Run `pytest tests/test_session.py -v` and confirm all tests pass
 
 ```bash
 pytest tests/test_session.py -v

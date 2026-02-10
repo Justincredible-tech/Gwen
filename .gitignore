@@ -26,6 +26,7 @@ htmlcov/
 # Gwen data (user-specific, never commit)
 .gwen/
 data/personalities/*.yaml
+!data/personalities/gwen.yaml
 !data/personalities/.gitkeep
 
 # Safety Ledger keys and encrypted data

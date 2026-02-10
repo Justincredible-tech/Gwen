@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gwen — Build Progress</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg-deep: #08090c;
+    --bg-surface: #0f1118;
+    --bg-card: #151821;
+    --bg-card-hover: #1a1e2a;
+    --border-subtle: #1e2233;
+    --border-mid: #2a3048;
+
+    --amber: #e4a53a;
+    --amber-dim: #a17428;
+    --amber-glow: rgba(228, 165, 58, 0.12);
+    --amber-glow-strong: rgba(228, 165, 58, 0.25);
+
+    --green: #4ade80;
+    --green-dim: #22804a;
+    --green-glow: rgba(74, 222, 128, 0.08);
+
+    --slate: #5a6077;
+    --slate-dim: #3a3f52;
+
+    --red: #f87171;
+
+    --text-primary: #e2e4ea;
+    --text-secondary: #8b90a5;
+    --text-tertiary: #565b72;
+
+    --font-display: 'Chakra Petch', sans-serif;
+    --font-mono: 'Share Tech Mono', 'Consolas', monospace;
+
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  html { font-size: 15px; }
+
+  body {
+    font-family: var(--font-display);
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── Scanline texture overlay ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ─── Ambient glow ─── */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -30%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 600px;
+    background: radial-gradient(ellipse, rgba(228,165,58,0.04) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .shell {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 2rem 2.5rem 4rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ═══════════════════════════════════════════
+     HEADER
+     ═══════════════════════════════════════════ */
+  .header {
+    margin-bottom: 2.5rem;
+    animation: fadeSlideDown 0.6s var(--ease-out) both;
+  }
+
+  .header__top {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .header__logo {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--amber);
+    text-shadow: 0 0 30px rgba(228,165,58,0.3);
+  }
+
+  .header__logo span {
+    color: var(--text-tertiary);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    font-size: 0.85rem;
+    text-transform: none;
+    text-shadow: none;
+    margin-left: 0.25rem;
+  }
+
+  .header__tagline {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-tertiary);
+    letter-spacing: 0.04em;
+  }
+
+  .header__tagline::before {
+    content: '// ';
+    color: var(--amber-dim);
+  }
+
+  /* ─── Progress bar ─── */
+  .progress-bar {
+    margin-top: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .progress-bar__track {
+    flex: 1;
+    height: 6px;
+    background: var(--bg-card);
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid var(--border-subtle);
+  }
+
+  .progress-bar__fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--amber-dim), var(--amber));
+    border-radius: 3px;
+    transition: width 1.5s var(--ease-out);
+    box-shadow: 0 0 12px rgba(228,165,58,0.3);
+  }
+
+  .progress-bar__label {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--amber);
+    min-width: 9ch;
+    text-align: right;
+  }
+
+  /* ─── Stats strip ─── */
+  .stats {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .stat__value {
+    color: var(--text-primary);
+    font-weight: 400;
+  }
+
+  .stat--green .stat__value { color: var(--green); }
+  .stat--amber .stat__value { color: var(--amber); }
+
+  /* ═══════════════════════════════════════════
+     BOARD
+     ═══════════════════════════════════════════ */
+  .board {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+    animation: fadeSlideUp 0.7s var(--ease-out) 0.15s both;
+  }
+
+  @media (max-width: 1100px) {
+    .board { grid-template-columns: 1fr; }
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .column__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 0.75rem;
+    margin-bottom: 0.25rem;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .column__title {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+
+  .column__count {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-tertiary);
+    background: var(--bg-surface);
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    border: 1px solid var(--border-subtle);
+  }
+
+  .column--done .column__title { color: var(--green-dim); }
+  .column--active .column__title { color: var(--amber); }
+
+  /* ═══════════════════════════════════════════
+     CARDS
+     ═══════════════════════════════════════════ */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px;
+    padding: 0.85rem 1rem;
+    position: relative;
+    transition: all 0.25s var(--ease-out);
+    cursor: default;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    border-radius: 6px 0 0 6px;
+  }
+
+  .card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-mid);
+    transform: translateY(-1px);
+  }
+
+  /* ─── Done cards ─── */
+  .card--done::before { background: var(--green-dim); }
+  .card--done:hover::before { background: var(--green); }
+
+  /* ─── Active cards ─── */
+  .card--active {
+    border-color: var(--border-mid);
+    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(228,165,58,0.03) 100%);
+  }
+  .card--active::before {
+    background: var(--amber);
+    box-shadow: 0 0 8px rgba(228,165,58,0.4);
+    animation: pulseBar 3s ease-in-out infinite;
+  }
+  .card--active:hover {
+    border-color: var(--amber-dim);
+    box-shadow: 0 2px 20px rgba(228,165,58,0.06);
+  }
+
+  /* ─── Backlog cards ─── */
+  .card--backlog::before { background: var(--slate-dim); }
+  .card--backlog:hover::before { background: var(--slate); }
+  .card--backlog {
+    opacity: 0.7;
+  }
+  .card--backlog:hover { opacity: 0.9; }
+
+  .card__top {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .card__id {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--text-tertiary);
+    background: var(--bg-surface);
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    border: 1px solid var(--border-subtle);
+    flex-shrink: 0;
+  }
+
+  .card--done .card__id { border-color: rgba(74,222,128,0.15); color: var(--green-dim); }
+  .card--active .card__id { border-color: rgba(228,165,58,0.2); color: var(--amber-dim); }
+
+  .card__name {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.2;
+  }
+
+  .card__desc {
+    font-size: 0.76rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+  }
+
+  .card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    align-items: center;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.63rem;
+    padding: 0.12rem 0.45rem;
+    border-radius: 3px;
+    letter-spacing: 0.02em;
+  }
+
+  .tag--tests {
+    color: var(--green);
+    background: rgba(74,222,128,0.08);
+    border: 1px solid rgba(74,222,128,0.12);
+  }
+
+  .tag--lines {
+    color: var(--text-secondary);
+    background: rgba(138,146,178,0.06);
+    border: 1px solid var(--border-subtle);
+  }
+
+  .tag--files {
+    color: var(--text-secondary);
+    background: rgba(138,146,178,0.06);
+    border: 1px solid var(--border-subtle);
+  }
+
+  .tag--dep {
+    color: var(--amber-dim);
+    background: rgba(228,165,58,0.06);
+    border: 1px solid rgba(228,165,58,0.1);
+  }
+
+  .tag--tasks {
+    color: var(--amber);
+    background: rgba(228,165,58,0.08);
+    border: 1px solid rgba(228,165,58,0.12);
+  }
+
+  .tag--phase {
+    color: var(--slate);
+    background: rgba(90,96,119,0.1);
+    border: 1px solid rgba(90,96,119,0.15);
+    font-weight: 400;
+  }
+
+  .tag--milestone {
+    color: var(--green);
+    background: rgba(74,222,128,0.1);
+    border: 1px solid rgba(74,222,128,0.18);
+    font-weight: 400;
+  }
+
+  /* ─── Phase divider in backlog ─── */
+  .phase-divider {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    padding: 0.5rem 0.75rem 0.15rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .phase-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-subtle);
+  }
+
+  /* ─── Done card compact toggle ─── */
+  .card--done .card__desc { display: none; }
+  .card--done:hover .card__desc { display: block; }
+  .card--done .card__meta { display: none; }
+  .card--done:hover .card__meta { display: flex; }
+
+  .card--done .card__expand-hint {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--text-tertiary);
+    display: inline;
+  }
+  .card--done:hover .card__expand-hint { display: none; }
+
+  /* ─── Checkmark for done ─── */
+  .card--done .card__name::after {
+    content: ' ✓';
+    color: var(--green-dim);
+    font-size: 0.75rem;
+  }
+
+  /* ═══════════════════════════════════════════
+     DEP GRAPH (bottom section)
+     ═══════════════════════════════════════════ */
+  .dep-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-subtle);
+    animation: fadeSlideUp 0.7s var(--ease-out) 0.3s both;
+  }
+
+  .dep-section__title {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 1rem;
+  }
+
+  .dep-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .dep-chain {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--text-secondary);
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    padding: 0.4rem 0.75rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .dep-chain__arrow {
+    color: var(--text-tertiary);
+  }
+
+  .dep-chain__node--done { color: var(--green-dim); }
+  .dep-chain__node--active { color: var(--amber); }
+  .dep-chain__node--backlog { color: var(--slate); }
+
+  /* ═══════════════════════════════════════════
+     ANIMATIONS
+     ═══════════════════════════════════════════ */
+  @keyframes fadeSlideDown {
+    from { opacity: 0; transform: translateY(-12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulseBar {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+  }
+
+  .card {
+    animation: cardIn 0.4s var(--ease-out) both;
+  }
+
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* stagger via JS */
+
+  /* ═══════════════════════════════════════════
+     TIMESTAMP FOOTER
+     ═══════════════════════════════════════════ */
+  .footer {
+    margin-top: 3rem;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-tertiary);
+    animation: fadeSlideUp 0.7s var(--ease-out) 0.4s both;
+  }
+
+  .footer a {
+    color: var(--amber-dim);
+    text-decoration: none;
+  }
+
+  .footer a:hover { color: var(--amber); }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="header__top">
+      <div class="header__logo">Gwen <span>progress</span></div>
+    </div>
+    <div class="header__tagline">building a soul, one track at a time</div>
+
+    <div class="progress-bar">
+      <div class="progress-bar__track">
+        <div class="progress-bar__fill" id="progressFill"></div>
+      </div>
+      <div class="progress-bar__label" id="progressLabel">0 / 20</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat stat--green"><span class="stat__value">331</span> tests passing</div>
+      <div class="stat"><span class="stat__value">~10,700</span> lines of code</div>
+      <div class="stat stat--green"><span class="stat__value">12</span> tracks done</div>
+      <div class="stat stat--amber"><span class="stat__value">4</span> ready</div>
+      <div class="stat"><span class="stat__value">4</span> blocked</div>
+      <div class="stat stat--green"><span class="stat__value">8/8</span> Phase 1 complete</div>
+    </div>
+  </header>
+
+  <!-- ═══ BOARD ═══ -->
+  <div class="board">
+
+    <!-- ─── DONE ─── -->
+    <div class="column column--done">
+      <div class="column__header">
+        <span class="column__title">Done</span>
+        <span class="column__count">12</span>
+      </div>
+
+      <div class="card card--done" style="animation-delay:0.08s">
+        <div class="card__top">
+          <span class="card__id">001</span>
+          <span class="card__name">Project Scaffold</span>
+          <span class="card__expand-hint">hover for detail</span>
+        </div>
+        <div class="card__desc">Package structure, pyproject.toml, editable install, pytest discovery.</div>
+        <div class="card__meta">
+          <span class="tag tag--files">17 files</span>
+        </div>
+      </div>
+
+      <div class="card card--done" style="animation-delay:0.10s">
+        <div class="card__top">
+          <span class="card__id">002</span>
+          <span class="card__name">Data Models</span>
+          <span class="card__expand-hint">hover for detail</span>
+        </div>
+        <div class="card__desc">30+ dataclasses &amp; enums — emotional, temporal, messages, memory, safety, personality, classification, reconsolidation.</div>
+        <div class="card__meta">
+          <span class="tag tag--files">9 files</span>
+          <span class="tag tag--tests">65+ tests</span>
+        </div>
+      </div>
+
+      <div class="card card--done" style="animation-delay:0.12s">
+        <div class="card__top">
+          <span class="card__id">003</span>
+          <span class="card__name">Database Layer</span>
+          <span class="card__expand-hint">hover for detail</span>
+        </div>
+        <div class="card__desc">Chronicle (SQLite episodic memory), ChromaDB init, full CRUD + search.</div>
+        <div class="card__meta">
+          <span class="tag tag--lines">567 loc</span>
+          <span class="tag tag--tests">28 tests</span>
+          <span class="tag tag--dep">dep: 002</span>
+        </div>
+      </div>
+
+      <div class="card card--done" style="animation-delay:0.14s">
+        <div class="card__top">
+          <span class="card__id">004</span>
+          <span class="card__name">Ollama Integration</span>
+          <span class="card__expand-hint">hover for detail</span>
+        </div>
+        <div class="card__desc">OllamaClient HTTP wrapper, hardware detection, AdaptiveModelManager — 4 profiles: Pocket / Portable / Standard / Power.</div>
+        <div class="card__meta">
+          <span class="tag tag--lines">657 loc</span>
+          <span class="tag tag--tests">29 tests</span>
+        </div>
+      </div>
+
+      <div class="card card--done" style="animation-delay:0.16s">
+        <div class="card__top">
+          <span class="card__id">005</span>
+          <span class="card__name">Tier 0 Pipeline</span>
+          <span class="card__expand-hint">hover for detail</span>
+        </div>
+        <div class="card__desc">Tier0Classifier, 4-layer JSON safety net, ClassificationRuleEngine — vulnerability, dominance, compass, intent, safety flags.</div>
+        <div class="card__meta">
+          <span class="tag tag--lines">601 loc</span>
+          <span class="tag tag--tests">50 tests</span>
+          <span class="tag tag--dep">dep: 002, 004</span>
+        </div>
+      </div>
+
+      <div class="card card--done" style="animation-delay:0.18s">
+        <div class="card__top">
+          <span class="card__id">006</span>
+          <span class="card__name">TME Generator</span>
+          <span class="card__expand-hint">hover for detail</span>
+        </div>
+        <div class="card__desc">Temporal Metadata Envelope — 7 TimePhase mappings, intra/inter-session timing, weekend detection.</div>
+        <div class="card__meta">
+          <span class="tag tag--lines">328 loc</span>
+          <span class="tag tag--tests">32 tests</span>
+          <span class="tag tag--dep">dep: 002, 003</span>
+        </div>
+      </div>
+
+      <div class="card card--done" style="animation-delay:0.20s">
+        <div class="card__top">
+          <span class="card__id">007</span>
+          <span class="card__name">Session Manager</span>
+          <span class="card__expand-hint">hover for detail</span>
+        </div>
+        <div class="card__desc">Session lifecycle — start, timeout detection, gap analysis, session classification, end-mode detection, goodbye keywords.</div>
+        <div class="card__meta">
+          <span class="tag tag--files">3 files</span>
+          <span class="tag tag--tests">44 tests</span>
+          <span class="tag tag--dep">dep: 003, 006</span>
+        </div>
+      </div>
+
+      <div class="card card--done" style="animation-delay:0.22s">
+        <div class="card__top">
+          <span class="card__id">008</span>
+          <span class="card__name">Personality &amp; CLI</span>
+          <span class="card__expand-hint">hover for detail</span>
+        </div>
+        <div class="card__desc">Personality YAML loader, dynamic prompt builder, orchestrator, CLI conversation loop — first end-to-end conversation. Phase 1 gate.</div>
+        <div class="card__meta">
+          <span class="tag tag--milestone">Phase 1 complete</span>
+          <span class="tag tag--files">6 files</span>
+          <span class="tag tag--dep">dep: 004, 005, 006, 007</span>
+        </div>
+      </div>
+
+      <div class="card card--done" style="animation-delay:0.24s">
+        <div class="card__top">
+          <span class="card__id">009</span>
+          <span class="card__name">Embedding Service</span>
+          <span class="card__expand-hint">hover for detail</span>
+        </div>
+        <div class="card__desc">Semantic (1024-dim) + emotional (5D) embeddings, ChromaDB storage, mood-congruent search.</div>
+        <div class="card__meta">
+          <span class="tag tag--lines">271 loc</span>
+          <span class="tag tag--tests">21 tests</span>
+          <span class="tag tag--dep">dep: 002, 003, 004</span>
+        </div>
+      </div>
+
+      <div class="card card--done" style="animation-delay:0.26s">
+        <div class="card__top">
+          <span class="card__id">013</span>
+          <span class="card__name">Amygdala Layer</span>
+          <span class="card__expand-hint">hover for detail</span>
+        </div>
+        <div class="card__desc">Cross-cutting emotional modulation — storage strength, flashbulb detection, mood-congruent retrieval with safety inversion, decay modulation.</div>
+        <div class="card__meta">
+          <span class="tag tag--files">2 files</span>
+          <span class="tag tag--tests">27 tests</span>
+          <span class="tag tag--dep">dep: 005, 009</span>
+        </div>
+      </div>
+
+      <div class="card card--done" style="animation-delay:0.28s">
+        <div class="card__top">
+          <span class="card__id">014</span>
+          <span class="card__name">Safety Core</span>
+          <span class="card__expand-hint">hover for detail</span>
+        </div>
+        <div class="card__desc">Threat detection across 4 vectors, temporal/historical/circadian escalation, encrypted append-only Safety Ledger.</div>
+        <div class="card__meta">
+          <span class="tag tag--files">2 files</span>
+          <span class="tag tag--tests">35 tests</span>
+          <span class="tag tag--dep">dep: 005, 003</span>
+        </div>
+      </div>
+
+      <div class="card card--done" style="animation-delay:0.30s">
+        <div class="card__top">
+          <span class="card__id">016</span>
+          <span class="card__name">Semantic Map</span>
+          <span class="card__expand-hint">hover for detail</span>
+        </div>
+        <div class="card__desc">Knowledge graph with NetworkX — entity/relationship CRUD, BFS traversal, bi-temporal validity, sensitivity filtering, JSON persistence.</div>
+        <div class="card__meta">
+          <span class="tag tag--files">1 file</span>
+          <span class="tag tag--tests">34 tests</span>
+          <span class="tag tag--dep">dep: 003, 009</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── READY (deps satisfied) ─── -->
+    <div class="column column--active">
+      <div class="column__header">
+        <span class="column__title">Ready</span>
+        <span class="column__count">4</span>
+      </div>
+
+      <div class="card card--active" style="animation-delay:0.15s">
+        <div class="card__top">
+          <span class="card__id">010</span>
+          <span class="card__name">Context Assembler</span>
+        </div>
+        <div class="card__desc">Build Tier 1 context window from system prompt, relational context, temporal block, mood-congruent memories, conversation history.</div>
+        <div class="card__meta">
+          <span class="tag tag--dep">dep: 008, 009</span>
+        </div>
+      </div>
+
+      <div class="card card--active" style="animation-delay:0.22s">
+        <div class="card__top">
+          <span class="card__id">015</span>
+          <span class="card__name">Mode System</span>
+        </div>
+        <div class="card__desc">Grounded / Immersion modes, Acknowledgment Gate with typed confirmation, mode-aware Safety Ledger logging.</div>
+        <div class="card__meta">
+          <span class="tag tag--dep">dep: 004, 014</span>
+        </div>
+      </div>
+
+      <div class="card card--active" style="animation-delay:0.29s">
+        <div class="card__top">
+          <span class="card__id">017</span>
+          <span class="card__name">Emotional Memory</span>
+        </div>
+        <div class="card__desc">Pulse — emotional baselines, trajectories, trigger maps. Bond — 6D relational field, attachment modeling.</div>
+        <div class="card__meta">
+          <span class="tag tag--dep">dep: 003, 013</span>
+        </div>
+      </div>
+
+      <div class="card card--active" style="animation-delay:0.36s">
+        <div class="card__top">
+          <span class="card__id">018</span>
+          <span class="card__name">Reconsolidation</span>
+        </div>
+        <div class="card__desc">Palimpsest system — immutable archive + append-only layers, bounded drift &plusmn;0.10/layer &plusmn;0.50 total.</div>
+        <div class="card__meta">
+          <span class="tag tag--dep">dep: 003, 013</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── BACKLOG (blocked) ─── -->
+    <div class="column column--backlog">
+      <div class="column__header">
+        <span class="column__title">Blocked</span>
+        <span class="column__count">4</span>
+      </div>
+
+      <div class="phase-divider">Phase 2 — Memory &amp; Intelligence</div>
+
+      <div class="card card--backlog" style="animation-delay:0.25s">
+        <div class="card__top">
+          <span class="card__id">011</span>
+          <span class="card__name">Post Processing</span>
+        </div>
+        <div class="card__desc">Tag responses emotionally, store in Chronicle, generate embeddings, log reconsolidation events.</div>
+        <div class="card__meta">
+          <span class="tag tag--dep">needs: 010</span>
+        </div>
+      </div>
+
+      <div class="card card--backlog" style="animation-delay:0.30s">
+        <div class="card__top">
+          <span class="card__id">012</span>
+          <span class="card__name">Session Close</span>
+        </div>
+        <div class="card__desc">Classify session type, compute emotional arc + subjective time, trigger light consolidation.</div>
+        <div class="card__meta">
+          <span class="tag tag--dep">needs: 011</span>
+        </div>
+      </div>
+
+      <div class="phase-divider">Phase 3 — Deep Systems</div>
+
+      <div class="card card--backlog" style="animation-delay:0.33s">
+        <div class="card__top">
+          <span class="card__id">019</span>
+          <span class="card__name">Compass Framework</span>
+        </div>
+        <div class="card__desc">4 directions (N/S/W/E), 20 skills, effectiveness tracking, disclaimer calibration.</div>
+        <div class="card__meta">
+          <span class="tag tag--dep">needs: 010</span>
+        </div>
+      </div>
+
+      <div class="card card--backlog" style="animation-delay:0.36s">
+        <div class="card__top">
+          <span class="card__id">020</span>
+          <span class="card__name">Temporal &amp; Autonomy</span>
+        </div>
+        <div class="card__desc">Circadian awareness, life rhythm detection, proactive triggers, "should I speak?" decision engine.</div>
+        <div class="card__meta">
+          <span class="tag tag--dep">needs: 017</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DEPENDENCY MAP ═══ -->
+  <section class="dep-section">
+    <div class="dep-section__title">Critical Paths</div>
+    <div class="dep-grid">
+      <div class="dep-chain">
+        <span class="dep-chain__node dep-chain__node--done">008</span>
+        <span class="dep-chain__arrow">→</span>
+        <span class="dep-chain__node dep-chain__node--active">010</span>
+        <span class="dep-chain__arrow">→</span>
+        <span class="dep-chain__node dep-chain__node--backlog">011</span>
+        <span class="dep-chain__arrow">→</span>
+        <span class="dep-chain__node dep-chain__node--backlog">012</span>
+      </div>
+      <div class="dep-chain">
+        <span class="dep-chain__node dep-chain__node--done">013</span>
+        <span class="dep-chain__arrow">→</span>
+        <span class="dep-chain__node dep-chain__node--active">017</span>
+        <span class="dep-chain__arrow">→</span>
+        <span class="dep-chain__node dep-chain__node--backlog">020</span>
+      </div>
+      <div class="dep-chain">
+        <span class="dep-chain__node dep-chain__node--done">014</span>
+        <span class="dep-chain__arrow">→</span>
+        <span class="dep-chain__node dep-chain__node--active">015</span>
+      </div>
+      <div class="dep-chain">
+        <span class="dep-chain__node dep-chain__node--done">013</span>
+        <span class="dep-chain__arrow">→</span>
+        <span class="dep-chain__node dep-chain__node--active">018</span>
+      </div>
+      <div class="dep-chain">
+        <span class="dep-chain__node dep-chain__node--active">010</span>
+        <span class="dep-chain__arrow">→</span>
+        <span class="dep-chain__node dep-chain__node--backlog">019</span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    Last updated 2026-02-10 &middot; 331 unit tests passing &middot; Phase 1 complete &middot; all 12 completed tracks verified
+  </footer>
+
+</div>
+
+<script>
+  // Animate progress bar on load
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      const fill = document.getElementById('progressFill');
+      const label = document.getElementById('progressLabel');
+      fill.style.width = '60%';
+      label.textContent = '12 / 20';
+    }, 300);
+  });
+</script>
+
+</body>
+</html>

@@ -1497,7 +1497,7 @@ pytest tests/test_safety.py -v
 
 ## Checklist (update after each step)
 
-- [ ] Phase 1 complete: gwen/safety/__init__.py exists; gwen/safety/monitor.py with SafetyResult and SafetyMonitor
-- [ ] Phase 2 complete: gwen/safety/ledger.py with SafetyLedger (encrypted append-only, NO delete method)
-- [ ] Phase 3 complete: Orchestrator updated to call SafetyMonitor (or deferred if Track 008 not done)
-- [ ] Phase 4 complete: tests/test_safety.py passes with all tests green
+- [x] Phase 1 complete: gwen/safety/__init__.py exists; gwen/safety/monitor.py with SafetyResult and SafetyMonitor
+- [x] Phase 2 complete: gwen/safety/ledger.py with SafetyLedger (encrypted append-only, NO delete method)
+- [x] Phase 3 complete: Integration deferred — orchestrator not yet available (Track 008 not done)
+- [x] Phase 4 complete: tests/test_safety.py passes with all tests green

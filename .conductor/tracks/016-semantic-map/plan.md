@@ -1139,5 +1139,5 @@ pytest tests/test_semantic_map.py -v
 
 ## Checklist (update after each step)
 
-- [ ] Phase 1 complete: gwen/memory/semantic_map.py with SemanticMap class, all CRUD methods, BFS, persistence
-- [ ] Phase 2 complete: tests/test_semantic_map.py passes with all tests green
+- [x] Phase 1 complete: gwen/memory/semantic_map.py with SemanticMap class, all CRUD methods, BFS, persistence
+- [x] Phase 2 complete: tests/test_semantic_map.py passes with all tests green

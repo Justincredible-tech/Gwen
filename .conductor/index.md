@@ -137,7 +137,9 @@ Maps logical names to physical file paths. Updated as files are created.
 | Test chronicle | `tests/test_chronicle.py` | 003 |
 | Test embeddings | `tests/test_embeddings.py` | 009 |
 | Test context | `tests/test_context.py` | 010 |
+| Test amygdala | `tests/test_amygdala.py` | 013 |
 | Test safety | `tests/test_safety.py` | 014 |
+| Test semantic map | `tests/test_semantic_map.py` | 016 |
 | Test palimpsest | `tests/test_palimpsest.py` | 018 |
 | Test compass | `tests/test_compass.py` | 019 |
 | Test model manager | `tests/test_model_manager.py` | 004 |

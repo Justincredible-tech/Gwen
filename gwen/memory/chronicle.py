@@ -438,6 +438,30 @@ class Chronicle:
         )
         return [self._row_to_message(row) for row in cursor.fetchall()]
 
+    def get_last_n_sessions(self, n: int = 30) -> list[SessionRecord]:
+        """Return the N most recent completed sessions, newest first.
+
+        Parameters
+        ----------
+        n : int
+            Maximum number of sessions to return.  Defaults to 30.
+
+        Returns
+        -------
+        list[SessionRecord]
+            Sessions ordered by start_time descending (newest first).
+            Returns an empty list if no sessions exist.
+        """
+        cursor = self.conn.execute(
+            """
+            SELECT * FROM sessions
+            ORDER BY start_time DESC
+            LIMIT ?
+            """,
+            (n,),
+        )
+        return [self._row_to_session(row) for row in cursor.fetchall()]
+
     # -- private helpers ------------------------------------------------------
 
     def _row_to_message(self, row: sqlite3.Row) -> MessageRecord:

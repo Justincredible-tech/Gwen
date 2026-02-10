@@ -11,17 +11,17 @@ Build the personality module loader (YAML files defining companion identity) and
 - Context assembly is simplified for now (just system prompt + recent messages -- full version in Track 010)
 
 ## 3. Requirements
-- [ ] data/personalities/gwen.yaml with complete Gwen personality definition
-- [ ] PersonalityLoader: load_from_file(path) -> PersonalityModule, validates required fields
-- [ ] PromptBuilder: builds system prompt from PersonalityModule + mode + optional compass section
-- [ ] CLI main loop (gwen/ui/cli.py): async input -> process -> display
-- [ ] Basic orchestrator (gwen/core/orchestrator.py): chains phases 1, 2, 3, 6 (simplified)
-- [ ] gwen/__main__.py entry point: `python -m gwen` launches CLI
-- [ ] First conversation works end-to-end (US-001)
+- [x] data/personalities/gwen.yaml with complete Gwen personality definition
+- [x] PersonalityLoader: load_from_file(path) -> PersonalityModule, validates required fields
+- [x] PromptBuilder: builds system prompt from PersonalityModule + mode + optional compass section
+- [x] CLI main loop (gwen/ui/cli.py): async input -> process -> display
+- [x] Basic orchestrator (gwen/core/orchestrator.py): chains phases 1, 2, 3, 6 (simplified)
+- [x] gwen/__main__.py entry point: `python -m gwen` launches CLI
+- [x] First conversation works end-to-end (US-001)
 
 ## 4. Verification Plan
-- [ ] gwen.yaml loads and validates correctly
-- [ ] System prompt is generated with personality fields
-- [ ] `python -m gwen` launches, accepts input, returns Gwen response
-- [ ] Messages are classified by Tier 0 pipeline
-- [ ] Basic conversation flows naturally
+- [x] gwen.yaml loads and validates correctly
+- [x] System prompt is generated with personality fields
+- [x] `python -m gwen` launches, accepts input, returns Gwen response
+- [x] Messages are classified by Tier 0 pipeline
+- [x] Basic conversation flows naturally

@@ -1,15 +1,9 @@
 # Project Tracks
 
 ## Active
-- [ ] 007-session-manager (Current Phase: Not Started)
-- [ ] 013-amygdala-layer (Current Phase: Not Started)
-- [ ] 014-safety-core (Current Phase: Not Started)
-- [ ] 016-semantic-map (Current Phase: Not Started)
+(none)
 
 ## Backlog
-
-### Phase 1: Foundation
-- [ ] 008-personality-and-cli (Depends: 004, 005, 006, 007)
 
 ### Phase 2: Memory & Intelligence
 - [ ] 010-context-assembler (Depends: 008, 009)
@@ -30,4 +24,9 @@
 - [x] 004-ollama-integration (Finished: 2026-02-09)
 - [x] 005-tier0-pipeline (Finished: 2026-02-09)
 - [x] 006-tme-generator (Finished: 2026-02-09)
+- [x] 007-session-manager (Finished: 2026-02-10)
+- [x] 008-personality-and-cli (Finished: 2026-02-10)
 - [x] 009-embedding-service (Finished: 2026-02-09)
+- [x] 013-amygdala-layer (Finished: 2026-02-10)
+- [x] 014-safety-core (Finished: 2026-02-10)
+- [x] 016-semantic-map (Finished: 2026-02-10)
