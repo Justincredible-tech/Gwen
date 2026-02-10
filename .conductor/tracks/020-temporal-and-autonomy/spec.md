@@ -12,20 +12,20 @@ Build the remaining temporal senses (circadian deviation, conversation rhythm, l
 - Consolidation: standard (6-12hr idle) and deep (weekly) using Tier 2
 
 ## 3. Requirements
-- [ ] CircadianDeviationDetector: compute deviation from baseline
-- [ ] ConversationRhythmTracker: message density, latency anomalies
-- [ ] LifeRhythmDetector: weekly emotional shapes, monthly patterns
-- [ ] AnniversaryDetector: date proximity, automatic safety elevation
-- [ ] AutonomyEngine: background trigger evaluation loop
-- [ ] TriggerEvaluator: time-based, pattern-based, emotional, goal-based, safety triggers
-- [ ] "Should I speak?" decision model
-- [ ] StandardConsolidation: entity extraction, baseline updates, trigger map updates
-- [ ] DeepConsolidation: pattern analysis, anticipatory primes, anniversary detection
+- [x] CircadianDeviationDetector: compute deviation from baseline
+- [x] ConversationRhythmTracker: message density, latency anomalies
+- [x] LifeRhythmDetector: weekly emotional shapes, monthly patterns
+- [x] AnniversaryDetector: date proximity, automatic safety elevation
+- [x] AutonomyEngine: background trigger evaluation loop
+- [x] TriggerEvaluator: time-based, pattern-based, emotional, goal-based, safety triggers
+- [x] "Should I speak?" decision model
+- [x] StandardConsolidation: entity extraction, baseline updates, trigger map updates
+- [x] DeepConsolidation: pattern analysis, anticipatory primes, anniversary detection
 
 ## 4. Verification Plan
-- [ ] Circadian deviation correctly flags unusual hours
-- [ ] Rhythm tracker detects acceleration/deceleration
-- [ ] Autonomy engine evaluates triggers correctly
-- [ ] "Should I speak?" respects quiet hours and relational state
-- [ ] Consolidation creates Map entities from conversation data
-- [ ] pytest tests pass
+- [x] Circadian deviation correctly flags unusual hours
+- [x] Rhythm tracker detects acceleration/deceleration
+- [x] Autonomy engine evaluates triggers correctly
+- [x] "Should I speak?" respects quiet hours and relational state
+- [x] Consolidation creates Map entities from conversation data
+- [x] pytest tests pass

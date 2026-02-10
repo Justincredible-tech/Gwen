@@ -6,7 +6,7 @@
 ## Backlog
 
 ### Phase 3: Deep Systems
-- [ ] 020-temporal-and-autonomy (Depends: 006, 007, 016, 017)
+(none)
 
 ## Completed
 - [x] 001-project-scaffold (Finished: 2026-02-09)
@@ -28,3 +28,4 @@
 - [x] 017-emotional-memory (Finished: 2026-02-10)
 - [x] 018-reconsolidation (Finished: 2026-02-10)
 - [x] 019-compass-framework (Finished: 2026-02-10)
+- [x] 020-temporal-and-autonomy (Finished: 2026-02-10)

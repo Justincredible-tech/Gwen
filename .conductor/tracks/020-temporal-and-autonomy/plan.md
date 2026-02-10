@@ -4,7 +4,7 @@
 **Spec:** [spec.md](./spec.md)
 **Depends on:** 006-tme-generator (TemporalMetadataEnvelope, TimePhase), 007-session-manager (SessionManager, SessionRecord), 016-semantic-map (SemanticMap), 017-emotional-memory (PulseManager, BondManager), 003-database-layer (Chronicle)
 **Produces:** gwen/temporal/circadian.py, gwen/temporal/rhythm.py, gwen/autonomy/__init__.py, gwen/autonomy/triggers.py, gwen/autonomy/decision.py, gwen/consolidation/standard.py, gwen/consolidation/deep.py, tests/test_circadian.py, tests/test_autonomy.py
-**Status:** Not Started
+**Status:** Complete
 
 ---
 
@@ -14,8 +14,8 @@
 
 Create the file `gwen/temporal/circadian.py`. If the `gwen/temporal/` directory does not exist, create it along with a `gwen/temporal/__init__.py`.
 
-- [ ] Create gwen/temporal/__init__.py (if it does not exist)
-- [ ] Write CircadianDeviationDetector to gwen/temporal/circadian.py
+- [x] Create gwen/temporal/__init__.py (if it does not exist)
+- [x] Write CircadianDeviationDetector to gwen/temporal/circadian.py
 
 **File: `gwen/temporal/__init__.py`** (create only if it does not exist)
 
@@ -214,7 +214,7 @@ class CircadianDeviationDetector:
 
 Create the file `gwen/temporal/rhythm.py` with the `RhythmTracker` class.
 
-- [ ] Write RhythmTracker class to gwen/temporal/rhythm.py
+- [x] Write RhythmTracker class to gwen/temporal/rhythm.py
 
 **File: `gwen/temporal/rhythm.py`** (complete content)
 
@@ -409,7 +409,7 @@ class RhythmTracker:
 
 Create the file `gwen/autonomy/__init__.py`.
 
-- [ ] Write gwen/autonomy/__init__.py
+- [x] Write gwen/autonomy/__init__.py
 
 **File: `gwen/autonomy/__init__.py`**
 
@@ -430,7 +430,7 @@ Reference: SRS.md Section 12
 
 Create the file `gwen/autonomy/triggers.py` with the `TriggerEvaluator` class.
 
-- [ ] Write TriggerEvaluator class to gwen/autonomy/triggers.py
+- [x] Write TriggerEvaluator class to gwen/autonomy/triggers.py
 
 **File: `gwen/autonomy/triggers.py`** (complete content)
 
@@ -657,7 +657,7 @@ class TriggerEvaluator:
 
 Create the file `gwen/autonomy/decision.py` with the `ShouldISpeakDecision` class.
 
-- [ ] Write ShouldISpeakDecision class to gwen/autonomy/decision.py
+- [x] Write ShouldISpeakDecision class to gwen/autonomy/decision.py
 
 **File: `gwen/autonomy/decision.py`** (complete content)
 
@@ -838,8 +838,8 @@ class ShouldISpeakDecision:
 
 Create `gwen/consolidation/__init__.py` if it does not exist, then create `gwen/consolidation/standard.py`.
 
-- [ ] Create gwen/consolidation/__init__.py (if it does not exist)
-- [ ] Write StandardConsolidation class to gwen/consolidation/standard.py
+- [x] Create gwen/consolidation/__init__.py (if it does not exist)
+- [x] Write StandardConsolidation class to gwen/consolidation/standard.py
 
 **File: `gwen/consolidation/__init__.py`** (create only if it does not exist)
 
@@ -1143,7 +1143,7 @@ class StandardConsolidation:
 
 Create the file `gwen/consolidation/deep.py` with the `DeepConsolidation` class.
 
-- [ ] Write DeepConsolidation class to gwen/consolidation/deep.py
+- [x] Write DeepConsolidation class to gwen/consolidation/deep.py
 
 **File: `gwen/consolidation/deep.py`** (complete content)
 
@@ -1477,7 +1477,7 @@ class DeepConsolidation:
 
 Create the file `tests/test_circadian.py` with the following exact content.
 
-- [ ] Write tests/test_circadian.py
+- [x] Write tests/test_circadian.py
 
 **File: `tests/test_circadian.py`** (complete content)
 
@@ -1971,7 +1971,7 @@ class TestShouldISpeakDecision:
 
 Execute the following commands from the project root:
 
-- [ ] Run `pytest tests/test_circadian.py -v` and confirm all tests pass
+- [x] Run `pytest tests/test_circadian.py -v` and confirm all tests pass
 
 ```bash
 pytest tests/test_circadian.py -v
@@ -2042,9 +2042,15 @@ tests/test_circadian.py::TestShouldISpeakDecision::test_quiet_hours_spanning_mid
 
 ## Checklist (update after each step)
 
-- [ ] Phase 1 complete: gwen/temporal/circadian.py with CircadianDeviationDetector
-- [ ] Phase 2 complete: gwen/temporal/rhythm.py with RhythmTracker
-- [ ] Phase 3 complete: gwen/autonomy/ package with TriggerEvaluator and ShouldISpeakDecision
-- [ ] Phase 4 complete: gwen/consolidation/standard.py with StandardConsolidation
-- [ ] Phase 5 complete: gwen/consolidation/deep.py with DeepConsolidation
-- [ ] Phase 6 complete: tests/test_circadian.py passes with all 29 tests green
+- [x] Phase 1 complete: gwen/temporal/circadian.py with CircadianDeviationDetector
+- [x] Phase 2 complete: gwen/temporal/rhythm.py with RhythmTracker
+- [x] Phase 3 complete: gwen/autonomy/ package with TriggerEvaluator and ShouldISpeakDecision
+- [x] Phase 4 complete: gwen/consolidation/standard.py with StandardConsolidation
+- [x] Phase 5 complete: gwen/consolidation/deep.py with DeepConsolidation
+- [x] Phase 6 complete: tests/test_circadian.py passes with all 29 tests green
+
+## Implementation Notes
+- Cleaned up unused imports flagged by Pyright (Optional, timezone, timedelta, CircadianDeviationSeverity, AnticipatoryPrime)
+- `last_session_end` param in TriggerEvaluator and `job` param in DeepConsolidation._detect_anniversaries are interface parameters, intentionally kept
+- All __init__.py files already existed from scaffold (tracks 006, 012, 020)
+- 592 tests pass across the full suite (29 new + 563 existing)

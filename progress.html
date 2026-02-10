@@ -558,11 +558,11 @@
     </div>
 
     <div class="stats">
-      <div class="stat stat--green"><span class="stat__value">563</span> tests passing</div>
-      <div class="stat"><span class="stat__value">~17,400</span> lines of code</div>
-      <div class="stat stat--green"><span class="stat__value">19</span> tracks done</div>
-      <div class="stat stat--amber"><span class="stat__value">1</span> ready</div>
-      <div class="stat stat--green"><span class="stat__value">3/4</span> Phase 3 progress</div>
+      <div class="stat stat--green"><span class="stat__value">592</span> tests passing</div>
+      <div class="stat"><span class="stat__value">~18,800</span> lines of code</div>
+      <div class="stat stat--green"><span class="stat__value">20</span> tracks done</div>
+      <div class="stat stat--green"><span class="stat__value">0</span> remaining</div>
+      <div class="stat stat--green"><span class="stat__value">4/4</span> Phase 3 complete</div>
     </div>
   </header>
 
@@ -573,7 +573,7 @@
     <div class="column column--done">
       <div class="column__header">
         <span class="column__title">Done</span>
-        <span class="column__count">19</span>
+        <span class="column__count">20</span>
       </div>
 
       <div class="card card--done" style="animation-delay:0.08s">
@@ -837,23 +837,33 @@
           <span class="tag tag--dep">dep: 005, 010</span>
         </div>
       </div>
+
+      <div class="card card--done" style="animation-delay:0.44s">
+        <div class="card__top">
+          <span class="card__id">020</span>
+          <span class="card__name">Temporal &amp; Autonomy</span>
+          <span class="card__expand-hint">hover for detail</span>
+        </div>
+        <div class="card__desc">Circadian deviation detector (30-day baseline, 4-level severity), conversation rhythm tracker (density, latency, anomaly detection), trigger evaluator (5 categories: time/pattern/emotional/safety/goal), "should I speak?" decision model (quiet hours, bond warmth gating), standard + deep consolidation pipelines.</div>
+        <div class="card__meta">
+          <span class="tag tag--files">7 files</span>
+          <span class="tag tag--tests">29 tests</span>
+          <span class="tag tag--dep">dep: 006, 007, 016, 017</span>
+        </div>
+      </div>
     </div>
 
     <!-- ─── READY (deps satisfied) ─── -->
     <div class="column column--active">
       <div class="column__header">
         <span class="column__title">Ready</span>
-        <span class="column__count">1</span>
+        <span class="column__count">0</span>
       </div>
 
-      <div class="card card--active" style="animation-delay:0.15s">
+      <div class="card card--backlog" style="animation-delay:0.15s; opacity: 0.4;">
         <div class="card__top">
-          <span class="card__id">020</span>
-          <span class="card__name">Temporal &amp; Autonomy</span>
-        </div>
-        <div class="card__desc">Circadian awareness, life rhythm detection, proactive triggers, "should I speak?" decision engine.</div>
-        <div class="card__meta">
-          <span class="tag tag--dep">dep: 006, 007, 016, 017</span>
+          <span class="card__id">&mdash;</span>
+          <span class="card__name" style="color: var(--green);">All tracks complete</span>
         </div>
       </div>
     </div>
@@ -892,7 +902,7 @@
         <span class="dep-chain__arrow">→</span>
         <span class="dep-chain__node dep-chain__node--done">017</span>
         <span class="dep-chain__arrow">→</span>
-        <span class="dep-chain__node dep-chain__node--active">020</span>
+        <span class="dep-chain__node dep-chain__node--done">020</span>
       </div>
       <div class="dep-chain">
         <span class="dep-chain__node dep-chain__node--done">014</span>
@@ -913,7 +923,7 @@
   </section>
 
   <footer class="footer">
-    Last updated 2026-02-10 &middot; 563 unit tests passing &middot; Phase 1+2 complete &middot; Phase 3: 3/4 &middot; all 19 completed tracks verified
+    Last updated 2026-02-10 &middot; 592 unit tests passing &middot; Phase 1+2+3 complete &middot; all 20 / 20 tracks done
   </footer>
 
 </div>
@@ -924,8 +934,8 @@
     setTimeout(() => {
       const fill = document.getElementById('progressFill');
       const label = document.getElementById('progressLabel');
-      fill.style.width = '95%';
-      label.textContent = '19 / 20';
+      fill.style.width = '100%';
+      label.textContent = '20 / 20';
     }, 300);
   });
 </script>
