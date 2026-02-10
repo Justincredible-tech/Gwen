@@ -6,7 +6,18 @@
       "Bash(python:*)",
       "Bash(git init:*)",
       "Bash(pip install:*)",
-      "Bash(pytest:*)"
+      "Bash(pytest:*)",
+      "Bash(printf:*)",
+      "Bash(gh auth:*)",
+      "Bash(gh repo create:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nComplete Phase 1: tracks 007-016 + personality & CLI \\(track 008\\)\n\nAdds all tracks completed since last backup:\n- 007: Session manager \\(lifecycle, gap analysis, timeout detection\\)\n- 008: Personality system & CLI \\(YAML loader, prompt builder, orchestrator, first conversation\\)\n- 009: Embedding service \\(already committed\\)\n- 013: Amygdala layer \\(emotional modulation, flashbulb detection, mood-congruent retrieval\\)\n- 014: Safety core \\(4 threat vectors, escalation logic, encrypted Safety Ledger\\)\n- 016: Semantic map \\(NetworkX knowledge graph, bi-temporal validity, BFS traversal\\)\n\nPhase 1 is now complete \\(8/8 foundation tracks\\). Gwen speaks.\n12/20 tracks done, 331 tests passing, ~10,700 LOC.\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git remote add:*)",
+      "Bash(git push:*)",
+      "Bash(git commit:*)",
+      "Bash(git status:*)",
+      "Bash(tasklist:*)",
+      "Bash(taskkill:*)"
     ]
   }
 }

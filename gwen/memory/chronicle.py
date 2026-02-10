@@ -305,7 +305,7 @@ class Chronicle:
         """
         self.conn.execute(
             """
-            INSERT INTO sessions (
+            INSERT OR REPLACE INTO sessions (
                 id, start_time, end_time, duration_sec,
                 session_type, end_mode,
                 opening_emotional_state, peak_emotional_state,

@@ -414,12 +414,12 @@ class AdaptiveModelManager:
         },
         HardwareProfile.STANDARD: {
             0: "qwen3:0.6b",
-            1: "qwen3:8b",
+            1: "qwen3-coder:30b",
             2: "qwen3-coder:30b",
         },
         HardwareProfile.POWER: {
             0: "qwen3:0.6b",
-            1: "qwen3:8b",
+            1: "qwen3-coder:30b",
             2: "qwen3-coder:30b",
         },
     }

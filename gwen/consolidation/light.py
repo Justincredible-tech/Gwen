@@ -154,9 +154,15 @@ class SessionCloser:
         if session.end_time is None:
             session.end_time = messages[-1].timestamp
 
-        duration_sec = int(
-            (session.end_time - session.start_time).total_seconds()
-        )
+        # Normalise both timestamps to avoid naive/aware mismatch
+        end = session.end_time
+        start = session.start_time
+        if end.tzinfo is not None and start.tzinfo is None:
+            start = start.replace(tzinfo=end.tzinfo)
+        elif start.tzinfo is not None and end.tzinfo is None:
+            end = end.replace(tzinfo=start.tzinfo)
+
+        duration_sec = int((end - start).total_seconds())
         session.duration_sec = max(0, duration_sec)
 
         # -- Step 2: Classify session type from duration ---------------------

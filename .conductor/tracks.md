@@ -29,3 +29,4 @@
 - [x] 018-reconsolidation (Finished: 2026-02-10)
 - [x] 019-compass-framework (Finished: 2026-02-10)
 - [x] 020-temporal-and-autonomy (Finished: 2026-02-10)
+- [x] 021-live-integration-testing (Finished: 2026-02-10)

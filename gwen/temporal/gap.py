@@ -49,6 +49,9 @@ def compute_gap_analysis(chronicle) -> Optional[GapAnalysis]:
 
     # Compute hours since last session
     now = datetime.now(timezone.utc)
+    # Normalise: last_end from Chronicle may be naive
+    if last_end.tzinfo is None:
+        last_end = last_end.replace(tzinfo=timezone.utc)
     gap_delta = now - last_end
     gap_hours = gap_delta.total_seconds() / 3600.0
 

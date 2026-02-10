@@ -195,6 +195,8 @@ class Orchestrator:
 
         # --- Step 8: Start session ---
         session = self.session_manager.start_session(initiated_by="user")
+        # Persist the session stub so that FK constraints on messages work
+        self.chronicle.insert_session(session)
         # Also start the TME generator's session tracking
         self.tme_generator.start_session(session_id=session.id)
         logger.info("Session started: %s", session.id)

@@ -149,6 +149,7 @@ Maps logical names to physical file paths. Updated as files are created.
 | Test modes | `tests/test_modes.py` | 015 |
 | Test emotional memory | `tests/test_emotional_memory.py` | 017 |
 | Test circadian/autonomy | `tests/test_circadian.py` | 020 |
+| Test live integration | `tests/test_live_integration.py` | 021 |
 
 ## Data: data/
 | Logical Name | Path | Track |
