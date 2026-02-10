@@ -8,19 +8,23 @@ adds memory retrieval, embedding, post-processing, and safety monitoring.
 """
 
 import logging
+import uuid
+from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
 from gwen.core.model_manager import AdaptiveModelManager, detect_profile
 from gwen.core.session_manager import SessionManager, detect_goodbye
+from gwen.core.post_processor import PostProcessor
 from gwen.temporal.tme import TMEGenerator
 from gwen.classification.tier0 import Tier0Classifier
 from gwen.classification.rule_engine import ClassificationRuleEngine
 from gwen.memory.chronicle import Chronicle
+from gwen.memory.stream import Stream
 from gwen.personality.loader import PersonalityLoader
 from gwen.personality.prompt_builder import PromptBuilder
 from gwen.models.personality import PersonalityModule
-from gwen.models.messages import SessionEndMode
+from gwen.models.messages import MessageRecord, SessionEndMode
 
 logger = logging.getLogger(__name__)
 
@@ -117,6 +121,8 @@ class Orchestrator:
         self.rule_engine: Optional[ClassificationRuleEngine] = None
         self.personality: Optional[PersonalityModule] = None
         self.prompt_builder: Optional[PromptBuilder] = None
+        self.stream: Optional[Stream] = None
+        self.post_processor: Optional[PostProcessor] = None
 
         # Conversation history for simplified context assembly.
         self._message_history: list[dict[str, str]] = []
@@ -174,7 +180,19 @@ class Orchestrator:
         self.rule_engine = ClassificationRuleEngine()
         self.prompt_builder = PromptBuilder()
 
-        # --- Step 7: Start session ---
+        # --- Step 7: Stream and PostProcessor ---
+        self.stream = Stream(max_messages=50)
+        self.post_processor = PostProcessor(
+            tier0_classifier=self.tier0_classifier,
+            rule_engine=self.rule_engine,
+            chronicle=self.chronicle,
+            embedding_service=None,  # Configured in later tracks
+            stream=self.stream,
+            session_manager=self.session_manager,
+        )
+        logger.info("Stream and PostProcessor initialized.")
+
+        # --- Step 8: Start session ---
         session = self.session_manager.start_session(initiated_by="user")
         # Also start the TME generator's session tracking
         self.tme_generator.start_session(session_id=session.id)
@@ -246,6 +264,21 @@ class Orchestrator:
         )
         self.session_manager.add_message("user")
 
+        # --- Phase 2d: Create user MessageRecord ---
+        user_message = MessageRecord(
+            id=str(uuid.uuid4()),
+            session_id=self.session_manager.current_session.id,
+            timestamp=datetime.now(),
+            sender="user",
+            content=user_input,
+            tme=tme,
+            emotional_state=emotional_state,
+            storage_strength=emotional_state.storage_strength,
+            is_flashbulb=emotional_state.is_flashbulb,
+            compass_direction=emotional_state.compass_direction,
+            compass_skill_used=None,
+        )
+
         # --- Phase 3: Assemble simplified context ---
         include_emotional = emotional_state.arousal > 0.6
 
@@ -291,12 +324,16 @@ class Orchestrator:
         if response_text.startswith("Gwen:"):
             response_text = response_text[5:].strip()
 
-        # --- Phase 5: Record the companion response ---
+        # --- Phase 5: Post-processing (Phase 7 of the message lifecycle) ---
         self._message_history.append({
             "role": "assistant",
             "content": response_text,
         })
-        self.session_manager.add_message("companion")
+        await self.post_processor.process(
+            user_message=user_message,
+            response_text=response_text,
+            tme=tme,
+        )
         # Generate TME for the companion message too
         self.tme_generator.generate("companion")
 

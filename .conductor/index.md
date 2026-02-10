@@ -140,6 +140,7 @@ Maps logical names to physical file paths. Updated as files are created.
 | Test amygdala | `tests/test_amygdala.py` | 013 |
 | Test safety | `tests/test_safety.py` | 014 |
 | Test semantic map | `tests/test_semantic_map.py` | 016 |
+| Test post-processing | `tests/test_post_processing.py` | 011 |
 | Test palimpsest | `tests/test_palimpsest.py` | 018 |
 | Test compass | `tests/test_compass.py` | 019 |
 | Test model manager | `tests/test_model_manager.py` | 004 |

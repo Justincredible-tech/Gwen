@@ -6,7 +6,6 @@
 ## Backlog
 
 ### Phase 2: Memory & Intelligence
-- [ ] 011-post-processing (Depends: 009, 010)
 - [ ] 012-session-close (Depends: 007, 011)
 
 ### Phase 3: Deep Systems
@@ -30,3 +29,4 @@
 - [x] 014-safety-core (Finished: 2026-02-10)
 - [x] 010-context-assembler (Finished: 2026-02-10)
 - [x] 016-semantic-map (Finished: 2026-02-10)
+- [x] 011-post-processing (Finished: 2026-02-10)

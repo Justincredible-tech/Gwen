@@ -558,11 +558,11 @@
     </div>
 
     <div class="stats">
-      <div class="stat stat--green"><span class="stat__value">370</span> tests passing</div>
-      <div class="stat"><span class="stat__value">~11,500</span> lines of code</div>
-      <div class="stat stat--green"><span class="stat__value">13</span> tracks done</div>
+      <div class="stat stat--green"><span class="stat__value">385</span> tests passing</div>
+      <div class="stat"><span class="stat__value">~12,100</span> lines of code</div>
+      <div class="stat stat--green"><span class="stat__value">14</span> tracks done</div>
       <div class="stat stat--amber"><span class="stat__value">5</span> ready</div>
-      <div class="stat"><span class="stat__value">2</span> blocked</div>
+      <div class="stat"><span class="stat__value">1</span> blocked</div>
       <div class="stat stat--green"><span class="stat__value">8/8</span> Phase 1 complete</div>
     </div>
   </header>
@@ -574,7 +574,7 @@
     <div class="column column--done">
       <div class="column__header">
         <span class="column__title">Done</span>
-        <span class="column__count">13</span>
+        <span class="column__count">14</span>
       </div>
 
       <div class="card card--done" style="animation-delay:0.08s">
@@ -754,6 +754,20 @@
           <span class="tag tag--dep">dep: 003, 009</span>
         </div>
       </div>
+
+      <div class="card card--done" style="animation-delay:0.32s">
+        <div class="card__top">
+          <span class="card__id">011</span>
+          <span class="card__name">Post Processing</span>
+          <span class="card__expand-hint">hover for detail</span>
+        </div>
+        <div class="card__desc">Phase 7 of message lifecycle — classify companion response, store both messages in Chronicle, Stream update, session stats, async embeddings.</div>
+        <div class="card__meta">
+          <span class="tag tag--files">2 files</span>
+          <span class="tag tag--tests">15 tests</span>
+          <span class="tag tag--dep">dep: 009, 010</span>
+        </div>
+      </div>
     </div>
 
     <!-- ─── READY (deps satisfied) ─── -->
@@ -765,12 +779,12 @@
 
       <div class="card card--active" style="animation-delay:0.15s">
         <div class="card__top">
-          <span class="card__id">011</span>
-          <span class="card__name">Post Processing</span>
+          <span class="card__id">012</span>
+          <span class="card__name">Session Close</span>
         </div>
-        <div class="card__desc">Tag responses emotionally, store in Chronicle, generate embeddings, log reconsolidation events.</div>
+        <div class="card__desc">Classify session type, compute emotional arc + subjective time, trigger light consolidation.</div>
         <div class="card__meta">
-          <span class="tag tag--dep">dep: 009, 010</span>
+          <span class="tag tag--dep">dep: 007, 011</span>
         </div>
       </div>
 
@@ -823,25 +837,12 @@
     <div class="column column--backlog">
       <div class="column__header">
         <span class="column__title">Blocked</span>
-        <span class="column__count">2</span>
-      </div>
-
-      <div class="phase-divider">Phase 2 — Memory &amp; Intelligence</div>
-
-      <div class="card card--backlog" style="animation-delay:0.25s">
-        <div class="card__top">
-          <span class="card__id">012</span>
-          <span class="card__name">Session Close</span>
-        </div>
-        <div class="card__desc">Classify session type, compute emotional arc + subjective time, trigger light consolidation.</div>
-        <div class="card__meta">
-          <span class="tag tag--dep">needs: 011</span>
-        </div>
+        <span class="column__count">1</span>
       </div>
 
       <div class="phase-divider">Phase 3 — Deep Systems</div>
 
-      <div class="card card--backlog" style="animation-delay:0.30s">
+      <div class="card card--backlog" style="animation-delay:0.25s">
         <div class="card__top">
           <span class="card__id">020</span>
           <span class="card__name">Temporal &amp; Autonomy</span>
@@ -861,9 +862,9 @@
       <div class="dep-chain">
         <span class="dep-chain__node dep-chain__node--done">010</span>
         <span class="dep-chain__arrow">→</span>
-        <span class="dep-chain__node dep-chain__node--active">011</span>
+        <span class="dep-chain__node dep-chain__node--done">011</span>
         <span class="dep-chain__arrow">→</span>
-        <span class="dep-chain__node dep-chain__node--backlog">012</span>
+        <span class="dep-chain__node dep-chain__node--active">012</span>
       </div>
       <div class="dep-chain">
         <span class="dep-chain__node dep-chain__node--done">013</span>
@@ -891,7 +892,7 @@
   </section>
 
   <footer class="footer">
-    Last updated 2026-02-10 &middot; 370 unit tests passing &middot; Phase 1 complete &middot; all 13 completed tracks verified
+    Last updated 2026-02-10 &middot; 385 unit tests passing &middot; Phase 1 complete &middot; all 14 completed tracks verified
   </footer>
 
 </div>
@@ -902,8 +903,8 @@
     setTimeout(() => {
       const fill = document.getElementById('progressFill');
       const label = document.getElementById('progressLabel');
-      fill.style.width = '65%';
-      label.textContent = '13 / 20';
+      fill.style.width = '70%';
+      label.textContent = '14 / 20';
     }, 300);
   });
 </script>
