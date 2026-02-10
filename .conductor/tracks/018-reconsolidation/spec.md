@@ -10,22 +10,22 @@ Build the Memory Palimpsest system — memories have an immutable archive and ap
 - Stored in SQLite (palimpsests table + reconsolidation_layers table)
 
 ## 3. Requirements
-- [ ] PalimpsestManager: create, add layers, query current reading, query at point in time
-- [ ] Drift enforcement: reject layers that would exceed MAX_DELTA_PER_LAYER (0.10) or MAX_TOTAL_DRIFT (0.50)
-- [ ] Cooldown enforcement: reject layers within 24 hours of the previous one for the same memory
-- [ ] Significance can only increase (delta >= 0)
-- [ ] current_reading() returns archive + all layers applied
-- [ ] reading_at(point_in_time) returns archive + layers up to that time
-- [ ] evolution_summary() returns human-readable description of how memory has changed
-- [ ] SQLite persistence for palimpsests and layers
+- [x] PalimpsestManager: create, add layers, query current reading, query at point in time
+- [x] Drift enforcement: reject layers that would exceed MAX_DELTA_PER_LAYER (0.10) or MAX_TOTAL_DRIFT (0.50)
+- [x] Cooldown enforcement: reject layers within 24 hours of the previous one for the same memory
+- [x] Significance can only increase (delta >= 0)
+- [x] current_reading() returns archive + all layers applied
+- [x] reading_at(point_in_time) returns archive + layers up to that time
+- [x] evolution_summary() returns human-readable description of how memory has changed
+- [x] SQLite persistence for palimpsests and layers
 
 ## 4. Verification Plan
-- [ ] Create palimpsest from MessageRecord, verify archive is stored
-- [ ] Add reconsolidation layer, verify current_reading reflects the change
-- [ ] Attempt to exceed MAX_DELTA_PER_LAYER → rejected
-- [ ] Attempt to exceed MAX_TOTAL_DRIFT → rejected
-- [ ] Attempt to decrease significance → rejected
-- [ ] Attempt to add layer within cooldown → rejected
-- [ ] reading_at returns correct state for any point in time
-- [ ] evolution_summary describes the change trajectory
-- [ ] pytest tests/test_palimpsest.py passes
+- [x] Create palimpsest from MessageRecord, verify archive is stored
+- [x] Add reconsolidation layer, verify current_reading reflects the change
+- [x] Attempt to exceed MAX_DELTA_PER_LAYER → rejected
+- [x] Attempt to exceed MAX_TOTAL_DRIFT → rejected
+- [x] Attempt to decrease significance → rejected
+- [x] Attempt to add layer within cooldown → rejected
+- [x] reading_at returns correct state for any point in time
+- [x] evolution_summary describes the change trajectory
+- [x] pytest tests/test_palimpsest.py passes

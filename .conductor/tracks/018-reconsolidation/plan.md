@@ -14,7 +14,7 @@
 
 Create the file `gwen/memory/palimpsest.py`. This step defines the SQL schema for the palimpsests table and the reconsolidation_layers table, plus the `init_palimpsest_tables()` function that creates them.
 
-- [ ] Write schema constants and init function to gwen/memory/palimpsest.py
+- [x] Write schema constants and init function to gwen/memory/palimpsest.py
 
 **File: `gwen/memory/palimpsest.py`** (initial content -- Phase 2 appends the PalimpsestManager class)
 
@@ -121,7 +121,7 @@ def init_palimpsest_tables(conn: sqlite3.Connection) -> None:
 
 Append the following serialization helpers to `gwen/memory/palimpsest.py`, directly below the `init_palimpsest_tables()` function.
 
-- [ ] Append serialization helpers to gwen/memory/palimpsest.py
+- [x] Append serialization helpers to gwen/memory/palimpsest.py
 
 **Append to `gwen/memory/palimpsest.py`:**
 
@@ -187,7 +187,7 @@ def _deserialize_emotional_state(raw: str) -> EmotionalStateVector:
 
 Append the PalimpsestManager class skeleton to `gwen/memory/palimpsest.py`, directly below the serialization helpers.
 
-- [ ] Append PalimpsestManager class with __init__ to gwen/memory/palimpsest.py
+- [x] Append PalimpsestManager class with __init__ to gwen/memory/palimpsest.py
 
 **Append to `gwen/memory/palimpsest.py`:**
 
@@ -242,7 +242,7 @@ class PalimpsestManager:
 
 Add the following method to the `PalimpsestManager` class, directly after `__init__`.
 
-- [ ] Add create_palimpsest() to PalimpsestManager
+- [x] Add create_palimpsest() to PalimpsestManager
 
 **Append inside the PalimpsestManager class:**
 
@@ -294,7 +294,7 @@ Add the following method to the `PalimpsestManager` class, directly after `__ini
 
 Add the following method to the `PalimpsestManager` class, directly after `create_palimpsest`.
 
-- [ ] Add add_layer() to PalimpsestManager
+- [x] Add add_layer() to PalimpsestManager
 
 **Append inside the PalimpsestManager class:**
 
@@ -481,7 +481,7 @@ Add the following method to the `PalimpsestManager` class, directly after `creat
 
 Add the following method to the `PalimpsestManager` class.
 
-- [ ] Add get_palimpsest() to PalimpsestManager
+- [x] Add get_palimpsest() to PalimpsestManager
 
 **Append inside the PalimpsestManager class:**
 
@@ -563,7 +563,7 @@ Add the following method to the `PalimpsestManager` class.
 
 Add the following method to the `PalimpsestManager` class.
 
-- [ ] Add get_current_reading() to PalimpsestManager
+- [x] Add get_current_reading() to PalimpsestManager
 
 **Append inside the PalimpsestManager class:**
 
@@ -601,7 +601,7 @@ Add the following method to the `PalimpsestManager` class.
 
 Add the following method to the `PalimpsestManager` class.
 
-- [ ] Add get_reading_at() to PalimpsestManager
+- [x] Add get_reading_at() to PalimpsestManager
 
 **Append inside the PalimpsestManager class:**
 
@@ -644,7 +644,7 @@ Add the following method to the `PalimpsestManager` class.
 
 Add the following method to the `PalimpsestManager` class.
 
-- [ ] Add get_evolution_summary() to PalimpsestManager
+- [x] Add get_evolution_summary() to PalimpsestManager
 
 **Append inside the PalimpsestManager class:**
 
@@ -686,7 +686,7 @@ Add the following method to the `PalimpsestManager` class.
 
 Create the file `tests/test_palimpsest.py` with the following exact content:
 
-- [ ] Write tests/test_palimpsest.py
+- [x] Write tests/test_palimpsest.py
 
 **File: `tests/test_palimpsest.py`** (complete content)
 
@@ -1213,7 +1213,7 @@ class TestEvolutionSummary:
 
 Execute the following command from the project root:
 
-- [ ] Run `pytest tests/test_palimpsest.py -v` and confirm all tests pass
+- [x] Run `pytest tests/test_palimpsest.py -v` and confirm all tests pass
 
 ```bash
 pytest tests/test_palimpsest.py -v
@@ -1250,6 +1250,11 @@ tests/test_palimpsest.py::TestEvolutionSummary::test_nonexistent_palimpsest_retu
 
 ## Checklist (update after each step)
 
-- [ ] Phase 1 complete: gwen/memory/palimpsest.py with schema constants and init_palimpsest_tables
-- [ ] Phase 2 complete: PalimpsestManager with all 7 methods
-- [ ] Phase 3 complete: tests/test_palimpsest.py passes with all 14 tests green
+- [x] Phase 1 complete: gwen/memory/palimpsest.py with schema constants and init_palimpsest_tables
+- [x] Phase 2 complete: PalimpsestManager with all 7 methods
+- [x] Phase 3 complete: tests/test_palimpsest.py passes with all 14 tests green
+
+## Implementation Notes
+- Removed unused `uuid` import from both palimpsest.py and test file
+- Removed unused imports from test file: `init_palimpsest_tables`, `MemoryPalimpsest`, `ReconsolidationConstraints`
+- All 14 palimpsest tests pass; full suite 533 tests pass with 0 failures

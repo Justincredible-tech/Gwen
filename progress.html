@@ -558,11 +558,11 @@
     </div>
 
     <div class="stats">
-      <div class="stat stat--green"><span class="stat__value">519</span> tests passing</div>
-      <div class="stat"><span class="stat__value">~15,700</span> lines of code</div>
-      <div class="stat stat--green"><span class="stat__value">17</span> tracks done</div>
-      <div class="stat stat--amber"><span class="stat__value">3</span> ready</div>
-      <div class="stat stat--green"><span class="stat__value">1/4</span> Phase 3 started</div>
+      <div class="stat stat--green"><span class="stat__value">533</span> tests passing</div>
+      <div class="stat"><span class="stat__value">~16,400</span> lines of code</div>
+      <div class="stat stat--green"><span class="stat__value">18</span> tracks done</div>
+      <div class="stat stat--amber"><span class="stat__value">2</span> ready</div>
+      <div class="stat stat--green"><span class="stat__value">2/4</span> Phase 3 progress</div>
     </div>
   </header>
 
@@ -573,7 +573,7 @@
     <div class="column column--done">
       <div class="column__header">
         <span class="column__title">Done</span>
-        <span class="column__count">17</span>
+        <span class="column__count">18</span>
       </div>
 
       <div class="card card--done" style="animation-delay:0.08s">
@@ -809,27 +809,30 @@
           <span class="tag tag--dep">dep: 003, 013</span>
         </div>
       </div>
+
+      <div class="card card--done" style="animation-delay:0.40s">
+        <div class="card__top">
+          <span class="card__id">018</span>
+          <span class="card__name">Reconsolidation</span>
+          <span class="card__expand-hint">hover for detail</span>
+        </div>
+        <div class="card__desc">Palimpsest system — immutable archive + append-only reconsolidation layers, bounded drift &plusmn;0.10/layer &plusmn;0.50 total, 24hr cooldown, time-travel queries, evolution summaries.</div>
+        <div class="card__meta">
+          <span class="tag tag--files">2 files</span>
+          <span class="tag tag--tests">14 tests</span>
+          <span class="tag tag--dep">dep: 003, 013</span>
+        </div>
+      </div>
     </div>
 
     <!-- ─── READY (deps satisfied) ─── -->
     <div class="column column--active">
       <div class="column__header">
         <span class="column__title">Ready</span>
-        <span class="column__count">3</span>
+        <span class="column__count">2</span>
       </div>
 
       <div class="card card--active" style="animation-delay:0.15s">
-        <div class="card__top">
-          <span class="card__id">018</span>
-          <span class="card__name">Reconsolidation</span>
-        </div>
-        <div class="card__desc">Palimpsest system — immutable archive + append-only layers, bounded drift &plusmn;0.10/layer &plusmn;0.50 total.</div>
-        <div class="card__meta">
-          <span class="tag tag--dep">dep: 003, 013</span>
-        </div>
-      </div>
-
-      <div class="card card--active" style="animation-delay:0.22s">
         <div class="card__top">
           <span class="card__id">019</span>
           <span class="card__name">Compass Framework</span>
@@ -896,7 +899,7 @@
       <div class="dep-chain">
         <span class="dep-chain__node dep-chain__node--done">013</span>
         <span class="dep-chain__arrow">→</span>
-        <span class="dep-chain__node dep-chain__node--active">018</span>
+        <span class="dep-chain__node dep-chain__node--done">018</span>
       </div>
       <div class="dep-chain">
         <span class="dep-chain__node dep-chain__node--done">010</span>
@@ -907,7 +910,7 @@
   </section>
 
   <footer class="footer">
-    Last updated 2026-02-10 &middot; 519 unit tests passing &middot; Phase 1+2 complete &middot; Phase 3: 1/4 &middot; all 17 completed tracks verified
+    Last updated 2026-02-10 &middot; 533 unit tests passing &middot; Phase 1+2 complete &middot; Phase 3: 2/4 &middot; all 18 completed tracks verified
   </footer>
 
 </div>
@@ -918,8 +921,8 @@
     setTimeout(() => {
       const fill = document.getElementById('progressFill');
       const label = document.getElementById('progressLabel');
-      fill.style.width = '85%';
-      label.textContent = '17 / 20';
+      fill.style.width = '90%';
+      label.textContent = '18 / 20';
     }, 300);
   });
 </script>
