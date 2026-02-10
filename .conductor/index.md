@@ -145,6 +145,7 @@ Maps logical names to physical file paths. Updated as files are created.
 | Test compass | `tests/test_compass.py` | 019 |
 | Test model manager | `tests/test_model_manager.py` | 004 |
 | Test orchestrator | `tests/test_orchestrator.py` | 008 |
+| Test session close | `tests/test_session_close.py` | 012 |
 
 ## Data: data/
 | Logical Name | Path | Track |

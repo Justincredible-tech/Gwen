@@ -5,9 +5,6 @@
 
 ## Backlog
 
-### Phase 2: Memory & Intelligence
-- [ ] 012-session-close (Depends: 007, 011)
-
 ### Phase 3: Deep Systems
 - [ ] 015-mode-system (Depends: 004, 014)
 - [ ] 017-emotional-memory (Depends: 003, 013)
@@ -30,3 +27,4 @@
 - [x] 010-context-assembler (Finished: 2026-02-10)
 - [x] 016-semantic-map (Finished: 2026-02-10)
 - [x] 011-post-processing (Finished: 2026-02-10)
+- [x] 012-session-close (Finished: 2026-02-10)

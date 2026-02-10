@@ -10,17 +10,17 @@ Build Phase 8 of the message lifecycle: when a session ends, classify it, comput
 - Emotional arc: opening state (first message), peak state (highest arousal), closing state (last message)
 
 ## 3. Requirements
-- [ ] SessionCloser class with close(session, stream, chronicle) method
-- [ ] Emotional arc computation (opening, peak, closing EmotionalStateVectors)
-- [ ] Subjective time computation
-- [ ] Relational field delta computation (placeholder — real computation in Track 017)
-- [ ] Save complete SessionRecord to Chronicle
-- [ ] Light consolidation: clear Stream, unload Tier 1 if idle timeout configured
-- [ ] Evaluate if standard consolidation should trigger
+- [x] SessionCloser class with close(session, stream, chronicle) method
+- [x] Emotional arc computation (opening, peak, closing EmotionalStateVectors)
+- [x] Subjective time computation
+- [x] Relational field delta computation (placeholder — real computation in Track 017)
+- [x] Save complete SessionRecord to Chronicle
+- [x] Light consolidation: clear Stream, unload Tier 1 if idle timeout configured
+- [x] Evaluate if standard consolidation should trigger
 
 ## 4. Verification Plan
-- [ ] Session type classified correctly from duration
-- [ ] Emotional arc captures opening, peak (highest arousal), closing states
-- [ ] Subjective time computed correctly
-- [ ] SessionRecord saved with all fields
-- [ ] pytest tests/test_session_close.py passes
+- [x] Session type classified correctly from duration
+- [x] Emotional arc captures opening, peak (highest arousal), closing states
+- [x] Subjective time computed correctly
+- [x] SessionRecord saved with all fields
+- [x] pytest tests/test_session_close.py passes

@@ -558,12 +558,12 @@
     </div>
 
     <div class="stats">
-      <div class="stat stat--green"><span class="stat__value">385</span> tests passing</div>
-      <div class="stat"><span class="stat__value">~12,100</span> lines of code</div>
-      <div class="stat stat--green"><span class="stat__value">14</span> tracks done</div>
-      <div class="stat stat--amber"><span class="stat__value">5</span> ready</div>
+      <div class="stat stat--green"><span class="stat__value">419</span> tests passing</div>
+      <div class="stat"><span class="stat__value">~13,500</span> lines of code</div>
+      <div class="stat stat--green"><span class="stat__value">15</span> tracks done</div>
+      <div class="stat stat--amber"><span class="stat__value">4</span> ready</div>
       <div class="stat"><span class="stat__value">1</span> blocked</div>
-      <div class="stat stat--green"><span class="stat__value">8/8</span> Phase 1 complete</div>
+      <div class="stat stat--green"><span class="stat__value">9/9</span> Phase 2 complete</div>
     </div>
   </header>
 
@@ -574,7 +574,7 @@
     <div class="column column--done">
       <div class="column__header">
         <span class="column__title">Done</span>
-        <span class="column__count">14</span>
+        <span class="column__count">15</span>
       </div>
 
       <div class="card card--done" style="animation-delay:0.08s">
@@ -768,27 +768,30 @@
           <span class="tag tag--dep">dep: 009, 010</span>
         </div>
       </div>
+
+      <div class="card card--done" style="animation-delay:0.34s">
+        <div class="card__top">
+          <span class="card__id">012</span>
+          <span class="card__name">Session Close</span>
+          <span class="card__expand-hint">hover for detail</span>
+        </div>
+        <div class="card__desc">Phase 8 — emotional arc (opening/peak/closing), subjective time, session type classification, topic extraction, compass activations, light consolidation trigger.</div>
+        <div class="card__meta">
+          <span class="tag tag--files">2 files</span>
+          <span class="tag tag--tests">34 tests</span>
+          <span class="tag tag--dep">dep: 007, 011</span>
+        </div>
+      </div>
     </div>
 
     <!-- ─── READY (deps satisfied) ─── -->
     <div class="column column--active">
       <div class="column__header">
         <span class="column__title">Ready</span>
-        <span class="column__count">5</span>
+        <span class="column__count">4</span>
       </div>
 
       <div class="card card--active" style="animation-delay:0.15s">
-        <div class="card__top">
-          <span class="card__id">012</span>
-          <span class="card__name">Session Close</span>
-        </div>
-        <div class="card__desc">Classify session type, compute emotional arc + subjective time, trigger light consolidation.</div>
-        <div class="card__meta">
-          <span class="tag tag--dep">dep: 007, 011</span>
-        </div>
-      </div>
-
-      <div class="card card--active" style="animation-delay:0.22s">
         <div class="card__top">
           <span class="card__id">015</span>
           <span class="card__name">Mode System</span>
@@ -864,7 +867,7 @@
         <span class="dep-chain__arrow">→</span>
         <span class="dep-chain__node dep-chain__node--done">011</span>
         <span class="dep-chain__arrow">→</span>
-        <span class="dep-chain__node dep-chain__node--active">012</span>
+        <span class="dep-chain__node dep-chain__node--done">012</span>
       </div>
       <div class="dep-chain">
         <span class="dep-chain__node dep-chain__node--done">013</span>
@@ -892,7 +895,7 @@
   </section>
 
   <footer class="footer">
-    Last updated 2026-02-10 &middot; 385 unit tests passing &middot; Phase 1 complete &middot; all 14 completed tracks verified
+    Last updated 2026-02-10 &middot; 419 unit tests passing &middot; Phase 1+2 complete &middot; all 15 completed tracks verified
   </footer>
 
 </div>
@@ -903,8 +906,8 @@
     setTimeout(() => {
       const fill = document.getElementById('progressFill');
       const label = document.getElementById('progressLabel');
-      fill.style.width = '70%';
-      label.textContent = '14 / 20';
+      fill.style.width = '75%';
+      label.textContent = '15 / 20';
     }, 300);
   });
 </script>

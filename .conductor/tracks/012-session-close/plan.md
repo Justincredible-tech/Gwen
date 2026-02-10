@@ -1097,7 +1097,7 @@ pytest tests/test_session_close.py -v
 
 ## Checklist (update after each step)
 
-- [ ] Phase 1 complete: gwen/consolidation/__init__.py exists
-- [ ] Phase 2 complete: gwen/consolidation/light.py with SessionCloser, classify_session_type, all helper functions, and should_trigger_standard_consolidation
-- [ ] Phase 3 complete: Orchestrator updated to use SessionCloser (or deferred if Track 008 not done)
-- [ ] Phase 4 complete: tests/test_session_close.py passes with all tests green
+- [x] Phase 1 complete: gwen/consolidation/__init__.py exists
+- [x] Phase 2 complete: gwen/consolidation/light.py with SessionCloser, classify_session_type, all helper functions, and should_trigger_standard_consolidation
+- [x] Phase 3 complete: Orchestrator updated to use SessionCloser
+- [x] Phase 4 complete: tests/test_session_close.py passes with all 34 tests green (419 total)

@@ -16,6 +16,7 @@ from typing import Optional
 from gwen.core.model_manager import AdaptiveModelManager, detect_profile
 from gwen.core.session_manager import SessionManager, detect_goodbye
 from gwen.core.post_processor import PostProcessor
+from gwen.consolidation.light import SessionCloser, should_trigger_standard_consolidation
 from gwen.temporal.tme import TMEGenerator
 from gwen.classification.tier0 import Tier0Classifier
 from gwen.classification.rule_engine import ClassificationRuleEngine
@@ -347,6 +348,10 @@ class Orchestrator:
 
         Call this when the conversation is ending (user typed quit,
         window closed, etc.).
+
+        Uses SessionCloser (Phase 8) for rich session finalization:
+        emotional arc from actual messages, topic extraction, compass
+        activation counts, and subjective time computation.
         """
         if self.session_manager is None:
             return
@@ -365,11 +370,46 @@ class Orchestrator:
         else:
             end_mode = SessionEndMode.NATURAL
 
-        session = self.session_manager.end_session(end_mode)
-        logger.info(
-            "Session ended: id=%s, type=%s, duration=%ds, messages=%d",
-            session.id,
-            session.session_type.value,
-            session.duration_sec,
-            session.message_count,
-        )
+        session = self.session_manager.current_session
+        session.end_mode = end_mode
+
+        # Get all messages from Chronicle for rich arc computation
+        messages = self.chronicle.get_messages_by_session(session.id)
+
+        if messages:
+            # Phase 8: Use SessionCloser for rich computation + Chronicle save
+            closer = SessionCloser(
+                chronicle=self.chronicle,
+                session_manager=self.session_manager,
+            )
+            finalized = await closer.close(
+                session=session,
+                messages=messages,
+                stream=self.stream,
+            )
+
+            # Check if standard consolidation should trigger
+            if should_trigger_standard_consolidation(
+                chronicle=self.chronicle,
+                last_standard_consolidation_time=getattr(
+                    self, "_last_standard_consolidation", None
+                ),
+            ):
+                pass  # TODO(track-020): schedule standard consolidation
+
+            logger.info(
+                "Session ended: id=%s, type=%s, duration=%ds, messages=%d",
+                finalized.id,
+                finalized.session_type.value,
+                finalized.duration_sec,
+                finalized.message_count,
+            )
+        else:
+            # No messages stored yet — fall back to basic end_session
+            finalized = self.session_manager.end_session(end_mode)
+            logger.info("Empty session ended: id=%s", finalized.id)
+            return
+
+        # Clean up session manager state so a new session can start.
+        # The internal counters will be reset by the next start_session() call.
+        self.session_manager.current_session = None
