@@ -10,18 +10,18 @@ Build Pulse (Tier 4: Emotional Memory) and Bond (Tier 5: Relational Memory). Pul
 - Attachment style: estimated after 20+ sessions from behavioral indicators
 
 ## 3. Requirements
-- [ ] PulseManager: maintain emotional baselines (overall, per day-of-week, per time-phase)
-- [ ] Update baselines from new session data
-- [ ] Store and query emotional trajectories
-- [ ] TriggerMap: build associations between contexts and emotional changes
-- [ ] BondManager: maintain RelationalField (6 dimensions)
-- [ ] Update relational field after each session
-- [ ] Track field history (time-series)
-- [ ] Attachment style estimation (minimum 20 sessions)
+- [x] PulseManager: maintain emotional baselines (overall, per day-of-week, per time-phase)
+- [x] Update baselines from new session data
+- [x] Store and query emotional trajectories
+- [x] TriggerMap: build associations between contexts and emotional changes
+- [x] BondManager: maintain RelationalField (6 dimensions)
+- [x] Update relational field after each session
+- [x] Track field history (time-series)
+- [x] Attachment style estimation (minimum 20 sessions)
 
 ## 4. Verification Plan
-- [ ] Baseline computation averages correctly
-- [ ] Baseline updates incrementally with new data
-- [ ] Bond field updates in correct direction after positive/negative sessions
-- [ ] Attachment style not estimated until 20+ sessions
-- [ ] pytest tests/test_emotional_memory.py passes
+- [x] Baseline computation averages correctly
+- [x] Baseline updates incrementally with new data
+- [x] Bond field updates in correct direction after positive/negative sessions
+- [x] Attachment style not estimated until 20+ sessions
+- [x] pytest tests/test_emotional_memory.py passes

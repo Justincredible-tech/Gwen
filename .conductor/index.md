@@ -147,6 +147,7 @@ Maps logical names to physical file paths. Updated as files are created.
 | Test orchestrator | `tests/test_orchestrator.py` | 008 |
 | Test session close | `tests/test_session_close.py` | 012 |
 | Test modes | `tests/test_modes.py` | 015 |
+| Test emotional memory | `tests/test_emotional_memory.py` | 017 |
 
 ## Data: data/
 | Logical Name | Path | Track |

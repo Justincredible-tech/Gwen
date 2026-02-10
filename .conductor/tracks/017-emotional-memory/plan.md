@@ -1599,6 +1599,14 @@ pytest tests/test_emotional_memory.py -v
 
 ## Checklist (update after each step)
 
-- [ ] Phase 1 complete: gwen/memory/pulse.py with PulseManager class, rolling averages, baseline retrieval, deviation computation, persistence
-- [ ] Phase 2 complete: gwen/memory/bond.py with BondManager class, 6-dimensional field updates, attachment style estimation, persistence
-- [ ] Phase 3 complete: tests/test_emotional_memory.py passes with all tests green
+- [x] Phase 1 complete: gwen/memory/pulse.py with PulseManager class, rolling averages, baseline retrieval, deviation computation, persistence
+- [x] Phase 2 complete: gwen/memory/bond.py with BondManager class, 6-dimensional field updates, attachment style estimation, persistence
+- [x] Phase 3 complete: tests/test_emotional_memory.py passes with all tests green (52 tests)
+
+### Implementation Notes
+- Removed unused `TimePhase` and `datetime` imports from pulse.py
+- Fixed critical mismatch: `RelationalField` requires `timestamp: datetime` — added to all construction sites in bond.py
+- Removed unused `avg_arousal` variable in bond.py
+- Fixed `max(scores, key=scores.get)` Pyright error → `max(scores, key=lambda k: scores[k])`
+- Fixed attachment test: warmth grows slowly (0.004/session at valence=0.7), increased to 50 sessions with valence=0.9 for secure classification
+- Removed unused imports from test file (DEFAULT_RELATIONAL_FIELD, MIN_SESSIONS_FOR_ATTACHMENT)
