@@ -22,7 +22,13 @@
       "WebFetch(domain:eval.16x.engineer)",
       "WebFetch(domain:arxiv.org)",
       "WebFetch(domain:research.trychroma.com)",
-      "WebFetch(domain:maliknaik.medium.com)"
+      "WebFetch(domain:maliknaik.medium.com)",
+      "Bash(sqlite3:*)",
+      "Bash(git clone:*)",
+      "Bash(git checkout:*)",
+      "Bash(git remote:*)",
+      "Bash(python3:*)",
+      "Bash(pip show:*)"
     ]
   }
 }
