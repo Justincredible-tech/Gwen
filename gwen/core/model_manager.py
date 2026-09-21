@@ -409,18 +409,18 @@ class AdaptiveModelManager:
         },
         HardwareProfile.PORTABLE: {
             0: "qwen3:0.6b",
-            1: "qwen3:8b-q3",
-            2: "qwen3:8b-q3",
+            1: "granite4.1:8b",
+            2: "granite4.1:8b",
         },
         HardwareProfile.STANDARD: {
             0: "qwen3:0.6b",
-            1: "qwen3-coder:30b",
-            2: "qwen3-coder:30b",
+            1: "granite4.1:8b",
+            2: "granite4.1:8b",
         },
         HardwareProfile.POWER: {
             0: "qwen3:0.6b",
-            1: "qwen3-coder:30b",
-            2: "qwen3-coder:30b",
+            1: "granite4.1:8b",
+            2: "granite4.1:8b",
         },
     }
 
@@ -473,6 +473,8 @@ class AdaptiveModelManager:
         self.client = OllamaClient(host=ollama_host)
         # Track which tiers are currently loaded to avoid redundant loads.
         self._loaded_tiers: set[int] = set()
+        # Runtime model overrides — lets user switch models on the fly.
+        self._overrides: dict[int, str] = {}
         logger.info(
             "AdaptiveModelManager initialised: profile=%s, tier_map=%s",
             profile.value,
@@ -481,6 +483,9 @@ class AdaptiveModelManager:
 
     def get_model_for_tier(self, tier: int) -> str:
         """Return the physical model name for a logical tier.
+
+        Checks runtime overrides first, then falls back to the profile's
+        default tier map.
 
         Parameters
         ----------
@@ -497,6 +502,8 @@ class AdaptiveModelManager:
         ValueError
             If the tier is not 0, 1, or 2.
         """
+        if tier in self._overrides:
+            return self._overrides[tier]
         if tier not in self.tier_map:
             raise ValueError(
                 f"Invalid tier {tier}. Must be 0, 1, or 2."
@@ -616,6 +623,81 @@ class AdaptiveModelManager:
             model=self.EMBEDDING_MODEL,
             text=text,
         )
+
+    # -- runtime model switching --------------------------------------------
+
+    def set_tier_override(self, tier: int, model: str) -> None:
+        """Override the model assigned to a logical tier.
+
+        This takes effect immediately for all future calls to
+        ``generate(tier)``.  The model is not loaded until the next
+        generate/ensure_tier_loaded call.
+
+        Parameters
+        ----------
+        tier : int
+            Logical tier (0, 1, or 2).
+        model : str
+            Exact Ollama model name, e.g. ``"qwen3.6:35b-a3b-q4_K_M"``
+            or ``"deepseek-v4-pro:cloud"``.
+
+        Raises
+        ------
+        ValueError
+            If the tier is not 0, 1, or 2.
+        """
+        if tier not in (0, 1, 2):
+            raise ValueError(f"Invalid tier {tier}. Must be 0, 1, or 2.")
+        self._overrides[tier] = model
+        # Remove from loaded tracking — new model needs to be loaded
+        self._loaded_tiers.discard(tier)
+        logger.info("Tier %d overridden to %s", tier, model)
+
+    def clear_tier_override(self, tier: int) -> None:
+        """Restore a tier to its default model from the current profile.
+
+        Parameters
+        ----------
+        tier : int
+            Logical tier (0, 1, or 2).
+
+        Raises
+        ------
+        ValueError
+            If the tier is not 0, 1, or 2.
+        """
+        if tier not in (0, 1, 2):
+            raise ValueError(f"Invalid tier {tier}. Must be 0, 1, or 2.")
+        if tier in self._overrides:
+            del self._overrides[tier]
+            self._loaded_tiers.discard(tier)
+            logger.info("Tier %d override cleared — restored to %s", tier, self.tier_map[tier])
+
+    def get_active_model(self, tier: int) -> str:
+        """Return the currently active model for a tier (override or default).
+
+        Parameters
+        ----------
+        tier : int
+            Logical tier (0, 1, or 2).
+
+        Returns
+        -------
+        str
+            The model name that would be used on the next ``generate()`` call.
+        """
+        return self.get_model_for_tier(tier)
+
+    async def list_available_models(self) -> list[dict]:
+        """List all models installed in the local Ollama instance.
+
+        Returns
+        -------
+        list[dict]
+            Each dict has keys like ``name``, ``size``, ``modified_at``.
+            Cloud models show ``remote_model`` and ``remote_host``.
+        """
+        return await self.client.list_models()
 
     # -- private helpers ----------------------------------------------------
 

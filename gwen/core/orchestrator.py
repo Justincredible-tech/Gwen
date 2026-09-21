@@ -8,12 +8,15 @@ adds memory retrieval, embedding, post-processing, and safety monitoring.
 """
 
 import logging
+import os
 import uuid
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
 from gwen.core.model_manager import AdaptiveModelManager, detect_profile
+from gwen.models.classification import HardwareProfile
+from gwen.core.document_store import DocumentStore
 from gwen.core.session_manager import SessionManager, detect_goodbye
 from gwen.core.post_processor import PostProcessor
 from gwen.consolidation.light import SessionCloser, should_trigger_standard_consolidation
@@ -124,6 +127,7 @@ class Orchestrator:
         self.prompt_builder: Optional[PromptBuilder] = None
         self.stream: Optional[Stream] = None
         self.post_processor: Optional[PostProcessor] = None
+        self.document_store: Optional[DocumentStore] = None
 
         # Conversation history for simplified context assembly.
         self._message_history: list[dict[str, str]] = []
@@ -153,7 +157,19 @@ class Orchestrator:
         logger.info("Chronicle initialized: %s", db_path)
 
         # --- Step 3: Model Manager ---
-        profile = await detect_profile()
+        profile_override = os.environ.get("GWEN_PROFILE")
+        if profile_override:
+            try:
+                profile = HardwareProfile(profile_override)
+                logger.info("Using GWEN_PROFILE override: %s", profile.value)
+            except ValueError:
+                logger.warning(
+                    "Invalid GWEN_PROFILE '%s'. Valid: pocket, portable, standard, power. Falling back to auto-detect.",
+                    profile_override,
+                )
+                profile = await detect_profile()
+        else:
+            profile = await detect_profile()
         self.model_manager = AdaptiveModelManager(profile)
         logger.info(
             "Model manager initialized. Profile: %s",
@@ -181,7 +197,12 @@ class Orchestrator:
         self.rule_engine = ClassificationRuleEngine()
         self.prompt_builder = PromptBuilder()
 
-        # --- Step 7: Stream and PostProcessor ---
+        # --- Step 7: Document Store ---
+        self.document_store = DocumentStore(docs_dir=str(data_path / "docs"))
+        self.document_store.scan()
+        logger.info("DocumentStore initialized: %d file(s)", len(self.document_store.list_documents()))
+
+        # --- Step 8: Stream and PostProcessor ---
         self.stream = Stream(max_messages=50)
         self.post_processor = PostProcessor(
             tier0_classifier=self.tier0_classifier,
@@ -296,6 +317,14 @@ class Orchestrator:
                 f"Suggested approach: {rc.suggested_approach}"
             )
 
+        # Auto-detect document references and inject context
+        doc_block = ""
+        if self.document_store is not None:
+            refs = self.document_store.detect_references(user_input)
+            for ref in refs:
+                self.document_store.set_active(ref)
+            doc_block = self.document_store.get_context_block()
+
         system_prompt = self.prompt_builder.build_system_prompt(
             personality=self.personality,
             mode="grounded",
@@ -303,6 +332,8 @@ class Orchestrator:
             include_emotional=include_emotional,
             return_context_block=return_context_block,
         )
+        if doc_block:
+            system_prompt = f"{system_prompt}\n\n{doc_block}"
 
         # Add the user message to history
         self._message_history.append({
@@ -321,7 +352,7 @@ class Orchestrator:
             prompt=prompt,
             system=system_prompt,
             options={
-                "num_predict": 512,
+                "num_predict": 4096,
                 "temperature": 0.7,
                 "top_p": 0.8,
                 "top_k": 20,

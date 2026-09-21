@@ -39,6 +39,7 @@ async def main() -> None:
         await orchestrator.startup()
         print("  ========================================")
         print("  Gwen is ready. Type 'quit' or 'exit' to end.")
+        print("  Commands: /docs  /read  /models  /profile  /model  /help")
         print("  ========================================\n")
 
     except FileNotFoundError as e:
@@ -69,6 +70,128 @@ async def main() -> None:
 
             # Skip empty input
             if not stripped:
+                continue
+
+            # --- Slash commands (model switching) ---
+            if stripped.startswith("/"):
+                parts = stripped.split()
+                cmd = parts[0]
+
+                if cmd == "/models":
+                    try:
+                        models = await orchestrator.model_manager.list_available_models()
+                        print("\n  Installed models:")
+                        for m in models:
+                            name = m.get("name", "unknown")
+                            size_gb = m.get("size", 0) / (1024 ** 3)
+                            remote = m.get("remote_model")
+                            tag = " (cloud)" if remote else ""
+                            print(f"    - {name}{tag} ({size_gb:.1f} GB)")
+                        print()
+                    except Exception as e:
+                        print(f"\n  [Could not list models: {e}]\n", file=sys.stderr)
+                    continue
+
+                if cmd == "/profile":
+                    mm = orchestrator.model_manager
+                    print(f"\n  Hardware profile: {mm.profile.value}")
+                    for t in (0, 1, 2):
+                        model = mm.get_active_model(t)
+                        is_override = t in mm._overrides
+                        tag = " [OVERRIDE]" if is_override else ""
+                        print(f"    Tier {t}: {model}{tag}")
+                    print()
+                    continue
+
+                if cmd == "/model":
+                    if len(parts) < 2:
+                        print("\n  Usage: /model <tier> <name>  or  /model reset <tier>\n")
+                        continue
+                    mm = orchestrator.model_manager
+                    if parts[1] == "reset":
+                        if len(parts) < 3:
+                            print("\n  Usage: /model reset <tier>\n")
+                            continue
+                        try:
+                            tier = int(parts[2])
+                            mm.clear_tier_override(tier)
+                            print(f"\n  Tier {tier} restored to default.\n")
+                        except Exception as e:
+                            print(f"\n  [Error: {e}]\n", file=sys.stderr)
+                        continue
+                    try:
+                        tier = int(parts[1])
+                        model_name = parts[2]
+                        mm.set_tier_override(tier, model_name)
+                        print(f"\n  Tier {tier} set to {model_name}.\n")
+                    except Exception as e:
+                        print(f"\n  [Error: {e}]\n", file=sys.stderr)
+                    continue
+
+                if cmd == "/docs":
+                    ds = orchestrator.document_store
+                    if ds is None:
+                        print("\n  [DocumentStore not initialized]\n")
+                        continue
+                    docs = ds.list_documents()
+                    active = set(ds.active_names())
+                    if not docs:
+                        print("\n  No documents found. Drop .txt, .md, or .html files into:")
+                        print(f"    {ds.docs_path}\n")
+                    else:
+                        print(f"\n  Documents in {ds.docs_path}:")
+                        for name, label, length in docs:
+                            tag = " [ACTIVE]" if name in active else ""
+                            print(f"    - {name} ({label}, {length} chars){tag}")
+                        print()
+                    continue
+
+                if cmd == "/read":
+                    ds = orchestrator.document_store
+                    if ds is None:
+                        print("\n  [DocumentStore not initialized]\n")
+                        continue
+                    if len(parts) < 2:
+                        print("\n  Usage: /read <filename>\n")
+                        continue
+                    filename = parts[1]
+                    if ds.set_active(filename):
+                        print(f"\n  '{filename}' is now active for this session.\n")
+                    else:
+                        available = [d[0] for d in ds.list_documents()]
+                        print(f"\n  '{filename}' not found. Available:")
+                        for name in available:
+                            print(f"    - {name}")
+                        print()
+                    continue
+
+                if cmd == "/clear":
+                    ds = orchestrator.document_store
+                    if ds is None:
+                        print("\n  [DocumentStore not initialized]\n")
+                        continue
+                    if len(parts) >= 2 and parts[1] == "docs":
+                        ds.clear_active()
+                        print("\n  All document context cleared.\n")
+                    else:
+                        print("\n  Usage: /clear docs\n")
+                    continue
+
+                if cmd == "/help":
+                    print("\n  Commands:")
+                    print("    /docs            — List documents in the working directory")
+                    print("    /read <filename>    — Activate a document for context")
+                    print("    /clear docs      — Clear active document context")
+                    print("    /models          — List all installed Ollama models")
+                    print("    /profile         — Show current profile and active models")
+                    print("    /model <tier> <name>  — Override a tier to any model")
+                    print("    /model reset <tier>  — Restore tier to default")
+                    print("    /help            — Show this message")
+                    print("    quit / exit / q  — End session")
+                    print()
+                    continue
+
+                print(f"\n  Unknown command: {cmd}. Try /help.\n")
                 continue
 
             # Process message

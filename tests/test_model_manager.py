@@ -270,31 +270,31 @@ class TestAdaptiveModelManager:
         assert mgr.get_model_for_tier(2) == "qwen3:0.6b"
 
     def test_get_model_for_tier_portable(self) -> None:
-        """Portable profile should use 0.6b for Tier 0 and 8b-q3 for 1+2."""
+        """Portable profile should use 0.6b for Tier 0 and granite4.1:8b for 1+2."""
         mgr = AdaptiveModelManager(
             profile=HardwareProfile.PORTABLE, ollama_host="http://fake:11434"
         )
         assert mgr.get_model_for_tier(0) == "qwen3:0.6b"
-        assert mgr.get_model_for_tier(1) == "qwen3:8b-q3"
-        assert mgr.get_model_for_tier(2) == "qwen3:8b-q3"
+        assert mgr.get_model_for_tier(1) == "granite4.1:8b"
+        assert mgr.get_model_for_tier(2) == "granite4.1:8b"
 
     def test_get_model_for_tier_standard(self) -> None:
-        """Standard profile should use 0.6b and 30b."""
+        """Standard profile should use 0.6b and granite4.1:8b."""
         mgr = AdaptiveModelManager(
             profile=HardwareProfile.STANDARD, ollama_host="http://fake:11434"
         )
         assert mgr.get_model_for_tier(0) == "qwen3:0.6b"
-        assert mgr.get_model_for_tier(1) == "qwen3-coder:30b"
-        assert mgr.get_model_for_tier(2) == "qwen3-coder:30b"
+        assert mgr.get_model_for_tier(1) == "granite4.1:8b"
+        assert mgr.get_model_for_tier(2) == "granite4.1:8b"
 
     def test_get_model_for_tier_power(self) -> None:
-        """Power profile should use 0.6b and 30b (same as standard)."""
+        """Power profile should use 0.6b and granite4.1:8b (same as standard)."""
         mgr = AdaptiveModelManager(
             profile=HardwareProfile.POWER, ollama_host="http://fake:11434"
         )
         assert mgr.get_model_for_tier(0) == "qwen3:0.6b"
-        assert mgr.get_model_for_tier(1) == "qwen3-coder:30b"
-        assert mgr.get_model_for_tier(2) == "qwen3-coder:30b"
+        assert mgr.get_model_for_tier(1) == "granite4.1:8b"
+        assert mgr.get_model_for_tier(2) == "granite4.1:8b"
 
     def test_invalid_tier_raises_value_error(self) -> None:
         """Requesting tier 3 or -1 should raise ValueError."""
@@ -338,7 +338,7 @@ class TestAdaptiveModelManager:
 
         # Now load Tier 2 — should unload Tier 1 first
         await mgr.ensure_tier_loaded(2)
-        mgr.client.unload_model.assert_called_with("qwen3-coder:30b")
+        mgr.client.unload_model.assert_called_with("granite4.1:8b")
         assert 1 not in mgr._loaded_tiers
         assert 2 in mgr._loaded_tiers
 
@@ -370,7 +370,7 @@ class TestAdaptiveModelManager:
         result = await mgr.generate(tier=1, prompt="Hello")
 
         mgr.client.generate.assert_called_once_with(
-            model="qwen3-coder:30b",
+            model="granite4.1:8b",
             prompt="Hello",
             system=None,
             format=None,
@@ -409,6 +409,65 @@ class TestAdaptiveModelManager:
         assert AdaptiveModelManager.CONCURRENCY[HardwareProfile.POWER] == {
             "max_concurrent": 3, "tier2_strategy": "concurrent"
         }
+
+
+    def test_set_tier_override_changes_active_model(self) -> None:
+        """set_tier_override should change the model returned by get_model_for_tier."""
+        mgr = AdaptiveModelManager(
+            profile=HardwareProfile.POCKET, ollama_host="http://fake:11434"
+        )
+        assert mgr.get_model_for_tier(1) == "qwen3:0.6b"
+        mgr.set_tier_override(1, "qwen3.6:35b-a3b-q4_K_M")
+        assert mgr.get_model_for_tier(1) == "qwen3.6:35b-a3b-q4_K_M"
+        assert mgr.get_active_model(1) == "qwen3.6:35b-a3b-q4_K_M"
+
+    def test_clear_tier_override_restores_default(self) -> None:
+        """clear_tier_override should restore the profile default."""
+        mgr = AdaptiveModelManager(
+            profile=HardwareProfile.STANDARD, ollama_host="http://fake:11434"
+        )
+        mgr.set_tier_override(1, "deepseek-v4-pro:cloud")
+        assert mgr.get_model_for_tier(1) == "deepseek-v4-pro:cloud"
+        mgr.clear_tier_override(1)
+        assert mgr.get_model_for_tier(1) == "granite4.1:8b"
+        assert 1 not in mgr._overrides
+
+    def test_invalid_tier_override_raises(self) -> None:
+        """set_tier_override with tier 3 should raise ValueError."""
+        mgr = AdaptiveModelManager(
+            profile=HardwareProfile.POCKET, ollama_host="http://fake:11434"
+        )
+        with pytest.raises(ValueError, match="Invalid tier"):
+            mgr.set_tier_override(3, "anything")
+
+    def test_override_discards_loaded_tracking(self) -> None:
+        """Setting an override should remove the tier from _loaded_tiers."""
+        mgr = AdaptiveModelManager(
+            profile=HardwareProfile.POCKET, ollama_host="http://fake:11434"
+        )
+        mgr._loaded_tiers.add(1)
+        mgr.set_tier_override(1, "other-model")
+        assert 1 not in mgr._loaded_tiers
+
+    @pytest.mark.asyncio
+    async def test_generate_uses_override(self) -> None:
+        """generate() should call the overridden model."""
+        mgr = AdaptiveModelManager(
+            profile=HardwareProfile.POCKET, ollama_host="http://fake:11434"
+        )
+        mgr.client.generate = AsyncMock(return_value="Cloud response")
+        mgr.set_tier_override(1, "kimi-k2.6:cloud")
+
+        result = await mgr.generate(tier=1, prompt="Hello")
+
+        mgr.client.generate.assert_called_once_with(
+            model="kimi-k2.6:cloud",
+            prompt="Hello",
+            system=None,
+            format=None,
+            options=None,
+        )
+        assert result == "Cloud response"
 
 
 # ---------------------------------------------------------------------------
